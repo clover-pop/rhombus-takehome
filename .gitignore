@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.env
+*.log
+node_modules/
+auth_state.json
+.DS_Store

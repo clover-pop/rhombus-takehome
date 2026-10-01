@@ -1,0 +1,161 @@
+order_id,customer_name,email,signup_date,order_date,country,amount_usd,quantity,status
+1093,Arjun Sharma,arjun.sharma93@example.com,2025-06-13,2024-07-14,Australia,124.47,7,delivered
+1050,Oscar Clarke,oscar.clarke50@example.com,2024-08-30,2024-06-15,United States,441.30,1,pending
+1057,ETHAN CLARKE,ethan.clarke57@example.com,2025-08-13,2024-07-13,India,26.97,7,shipped
+1070,Oscar Smith,oscar.smith70@example.com,2025-05-01,2025-04-05,India,377.13,-5,delivered
+1130,Aarav Singh,aarav.singh130@example.com,2025-04-29,2025-01-25,United Kingdom,494.26,3,delivered
+1008,Liam Singh,liam.singh8@example.com,2024-12-29,2024-08-02,India,352.40,2,pending
+1094,Arjun Evans,arjun.evans94@example.com,2024-09-03,2025-05-02,United Kingdom,226.85,1,shipped
+1131,Aarav Smith,aarav.smith131@example.com,2025-05-29,2024-12-05,Australia,437.72,8,shipped
+1037,Zoe Taylor,zoe.taylor37@example.com,10 Feb 2024,2024-03-24,United Kingdom,330.40,10,cancelled
+1107,Kabir Patel,kabir.patel107@example.com,04 Aug 2024,2024-09-27,Australia,82.74,3,shipped
+1067,Kabir Wilson,kabir.wilson67@example.com,2024-08-12,2024-06-29,Canada,234.95,9,pending
+1004,Maya Nguyen,maya.nguyen4@example.com,2025-01-24,2024-04-09,India,424.51,10,cancelled
+1002,Arjun Patel,arjun.patel2@example.com,2025-07-12,2025-03-05,United States,227.36,5,shipped
+1059,Lucas Khan,lucas.khan59@example.com,2024-05-07,2024-11-03,Canada,158.10,7,cancelled
+1030,Sofia Khan,sofia.khan30@example.com,2024-03-18,2025-03-29,Canada,53.46,9,shipped
+1087,Arjun Jones,arjun.jones87@example.com,2024-12-15,2024-01-13,United Kingdom,412.05,2,delivered
+1113,Oscar Wilson,oscar.wilson113@example.com,2024-11-26,2024-09-13,Australia,50.21,10,shipped
+1074,AARAV PATEL,aarav.patel74@example.com,2025-03-06,2025-02-02,Canada,473.30,1,delivered
+1060,Ethan Gupta,john@@example.com,2024-10-29,2025-07-21,United States,99.96,7,pending
+1012,Liam Brown,liam.brown12@example.com,2024-05-22,2024-09-09,Canada,271.79,10,delivered
+1128,Chloe Kumar,chloe.kumar128@example.com,2025-05-10,2024-12-19,India,N/A,9,delivered
+1001,Zoe Wilson,not-an-email,2024-02-02,2024-01-31,Australia,113.23,9,shipped
+1072,Priya Singh,priya.singh72@example.com,2025-07-07,2024-03-23,United States,79.66,7,pending
+1040,Maya Kumar,,2024-08-06,2025-06-02,India,70.57,6,shipped
+1016,Lucas Clarke,lucas.clarke16@example.com,2025-07-03,2024-09-30,India,60.22,7,pending
+1120,Zoe Evans,zoe.evans120@example.com,2025-05-25,2025-03-28,Australia,105.76,9,pending
+1069,Kabir Clarke,kabir.clarke69@example.com,2025-03-29,2025-05-31,United Kingdom,416.13,9,delivered
+1056,Maya Taylor,maya.taylor56@example.com,2025-03-20,2024-12-19,India,221.01,9,shipped
+1062,Sofia Wilson,sofia.wilson62@example.com,2025-08-16,2024-11-25,United Kingdom,223.68,4,delivered
+1101,Isla Smith,isla.smith101@example.com,2025-05-17,2024-04-15,Australia,289.16,8,delivered
+1135,Zoe Nguyen,zoe.nguyen135@example.com,2024-08-28,2024-10-21,United States,374.65,7,shipped
+1041,Oscar Patel,,2025-01-13,2024-10-18,United States,221.90,9,cancelled
+1022,Sofia Clarke,sofia.clarke22@example.com,06 Jul 2025,2024-07-24,India,202.50,6,delivered
+1007,Kabir Brown,kabir.brown7@example.com,2024-03-22,2024-08-26,Australia,193.16,8,cancelled
+1032,Oscar Sharma,oscar.sharma32@example.com,2024-06-17,2025-01-23,AUS,492.73,5,delivered
+1098,Sofia Patel,sofia.patel98@example.com,2025-05-10,2024-10-10,Canada,488.42,9,cancelled
+1126,Ruby Nguyen,ruby.nguyen126@example.com,2024-10-09,2025-02-28,india,467.45,9,cancelled
+1026,Sofia Kumar,sofia.kumar26@example.com,2024-05-15,2025-08-07,Canada,238.97,8,delivered
+1063,Kabir Clarke,kabir.clarke63@example.com,2024-06-22,2024-03-27,India,260.15,10,cancelled
+1090,  priya khan  ,priya.khan90@example.com,2024-09-08,2024-03-29,India,441.41,4,delivered
+1031,Maya Clarke,maya.clarke31@example.com,2024-08-30,2024-06-19,United Kingdom,245.39,4,delivered
+1066,Isla Gupta,john@@example.com,2025-01-28,2025-05-21,United Kingdom,125.77,1,shipped
+1125,Sofia Lee,sofia.lee125@example.com,2025-07-18,2024-05-28,U.K.,99.35,10,pending
+1091,Zoe Taylor,zoe.taylor91@example.com,2025-01-23,2024-12-10,Australia,,6,pending
+1135,Zoe Nguyen,zoe.nguyen135@example.com,2024-08-28,2024-10-21,United States,374.65,7,shipped
+1104,Liam Evans,liam.evans104@example.com,2025-07-30,2024-11-07,Australia,496.99,2,delivered
+1079,Priya Patel,priya.patel79@example.com,2025-04-10,2024-11-30,India,381.81,7,cancelled
+1119,LUCAS KHAN,lucas.khan119@example.com,2025-07-09,2025-04-18,United Kingdom,31.83,9,cancelled
+1146,Zoe Singh,zoe.singh146@example.com,2024-05-14,2024-04-02,India,,7,pending
+1139,Zoe Jones,,2024-09-03,2025-05-24,Canada,75.84,8,cancelled
+1100,Isla Kumar,isla.kumar100@example.com,09 May 2024,2024-10-07,Australia,487.28,9,cancelled
+1009,Arjun Gupta,arjun.gupta9@example.com,2024-09-07,2024-06-16,United Kingdom,192.83,9,pending
+1068,Oscar Khan,oscar.khan68@example.com,2024-05-04,2025-04-12,United States,401.70,9,cancelled
+1005,Kabir Sharma,kabir.sharma5@example.com,2025-04-15,2025-07-03,Australia,,7,shipped
+1038,Oscar Brown,,2024-07-28,2024-11-17,United States,136.48,3,cancelled
+1131,Aarav Smith,aarav.smith131@example.com,2025-05-29,2024-12-05,Australia,437.72,8,shipped
+1049,Sofia Jones,sofia.jones49@example.com,2024-09-12,2024-04-15,India,391.16,7,pending
+1020,Aarav Patel,aarav.patel20@example.com,2025/08/03,2024-03-21,Australia,367.29,2,pending
+1046,Liam Gupta,liam.gupta46@example.com,2025-03-28,2025-07-18,United Kingdom,282.65,2,shipped
+1145,Zoe Brown,zoe.brown145@example.com,2024/05/20,2024-04-09,Australia,157.92,8,shipped
+1112,Isla Wilson,isla.wilson112@example.com,2024-10-05,2025-05-27,Canada,249.43,2,shipped
+1010,Lucas Singh,,2024-02-27,2024-08-22,Australia,403.50,7,cancelled
+1133,Chloe Evans,chloe.evans133@example.com,2024-09-28,2024-12-12,Canada,347.89,2,cancelled
+1149,Liam Evans,liam.evans149@example.com,2024-08-19,2025-02-10,Canada,186.06,7,shipped
+1053,Noah Khan,noah.khan53@example.com,2024-08-21,2024-08-16,Australia,331.72,7,cancelled
+1048,Ethan Smith,ethan.smith48@example.com,2024-02-12,2024-11-11,india,450.00,1,cancelled
+1103,Ruby Nguyen,ruby.nguyen103@example.com,2025-02-14,2025-05-18,AUS,290.63,1,pending
+1011,Maya Patel,maya.patel11@example.com,2025-08-03,2024-11-18,United States,329.44,7,delivered
+1140,  chloe brown  ,chloe.brown140@example.com,2024-01-10,2025-04-21,India,340.42,3,shipped
+1072,Priya Singh,priya.singh72@example.com,2025-07-07,2024-03-23,United States,79.66,7,pending
+1008,Liam Singh,liam.singh8@example.com,2024-12-29,2024-08-02,India,352.40,2,pending
+1051,Isla Clarke,isla.clarke51@example.com,2024-12-06,2025-02-25,United States,137.07,-2,delivered
+1018,Ruby Jones,ruby.jones18@example.com,2025-06-03,2024-07-22,United States,190.09,3,shipped
+1088,Priya Jones,priya.jones88@example.com,2025-04-15,2024-06-05,United Kingdom,92.19,9,cancelled
+1000,Lucas Nguyen,lucas.nguyen0@example.com,2024-01-26,2024-10-08,United States,N/A,2,shipped
+1097,Noah Brown,noah.brown97@example.com,2024-08-24,2024-05-03,United States,161.20,9,pending
+1043,  noah nguyen  ,noah.nguyen43@example.com,2024-04-19,2025-07-20,United States,139.81,10,pending
+1108,Liam Sharma,liam.sharma108@example.com,2025-02-22,2025-04-06,CANADA,237.61,1,pending
+1081,Priya Patel,priya.patel81@example.com,11 Mar 2024,2024-02-11,Australia,475.06,4,shipped
+1132,Arjun Clarke,,2025-04-12,2024-01-16,United States,207.94,3,shipped
+1083,Chloe Gupta,chloe.gupta83@example.com,2024-09-19,2025-01-12,United States,304.92,2,pending
+1034,Zoe Gupta,zoe.gupta34@example.com,2025-07-09,2024-03-03,India,33.30,-10,delivered
+1077,Isla Smith,isla.smith77@example.com,2025-04-23,2024-05-10,Canada,269.39,7,shipped
+1003,Kabir Evans,kabir.evans3@example.com,2024/06/12,2025-03-08,India,142.55,4,cancelled
+1089,Zoe Evans,zoe.evans89@example.com,2025-07-05,2025-05-10,United Kingdom,220.61,10,cancelled
+1082,Zoe Smith,zoe.smith82@example.com,2024-09-01,2024-05-09,United Kingdom,336.38,10,pending
+1147,Sofia Smith,sofia.smith147@example.com,2025-07-06,2025-01-09,Canada,253.39,5,pending
+1078,Maya Jones,maya.jones78@example.com,2025-03-14,2024-05-18,United Kingdom,94.96,5,delivered
+1079,Priya Patel,priya.patel79@example.com,2025-04-10,2024-11-30,India,381.81,7,cancelled
+1018,Ruby Jones,ruby.jones18@example.com,2025-06-03,2024-07-22,United States,190.09,3,shipped
+1114,Kabir Jones,kabir.jones114@example.com,2024/10/02,2025-08-13,Australia,382.74,3,delivered
+1099,Maya Khan,maya.khan99@example.com,2024/07/17,2024-10-30,United States,183.64,5,shipped
+1148,Noah Clarke,noah.clarke148@example.com,2025-05-08,2024-10-29,India,403.10,8,shipped
+1035,Arjun Clarke,arjun.clarke35@example.com,2025-06-27,2024-06-10,Australia,480.59,2,pending
+1014,Maya Evans,maya.evans14@example.com,2024-02-18,2024-04-22,United States,315.59,7,shipped
+1047,Oscar Gupta,oscar.gupta47@example.com,2024-06-01,2025-07-12,Australia,418.12,10,pending
+1123,Ruby Clarke,ruby.clarke123@example.com,2024-04-26,2025-04-17,Australia,325.62,3,delivered
+1044,ISLA SINGH,isla.singh44@example.com,2024-07-27,2024-09-27,Canada,246.82,1,shipped
+1144,Ruby Clarke,ruby.clarke144@example.com,2024-10-20,2024-08-23,Canada,,4,pending
+1028,Lucas Jones,lucas.jones28@example.com,10 Apr 2024,2024-03-03,United Kingdom,365.47,2,pending
+1061,  zoe taylor  ,zoe.taylor61@example.com,2024-11-04,2025-02-19,Canada,417.69,5,cancelled
+1084,Noah Nguyen,noah.nguyen84@example.com,2025-08-15,2024-01-27,India,N/A,7,delivered
+1019,Zoe Singh,zoe.singh19@example.com,2025-05-15,2024-01-20,Australia,464.90,5,pending
+1027,Sofia Nguyen,sofia.nguyen27@example.com,2024-04-09,2025-03-17,India,214.67,8,shipped
+1064,Maya Khan,not-an-email,2024-08-28,2024-11-13,United States,404.25,3,shipped
+1073,Isla Patel,isla.patel73@example.com,2024-03-06,2025-02-28,United Kingdom,168.79,-8,delivered
+1013,OSCAR TAYLOR,oscar.taylor13@example.com,2025-02-12,2025-01-05,United States,498.68,3,delivered
+1118,Chloe Nguyen,chloe.nguyen118@example.com,2024-11-18,2024-09-15,India,62.38,7,shipped
+1137,Priya Evans,priya.evans137@example.com,2024-02-27,2024-10-27,India,190.55,3,pending
+1076,Chloe Patel,chloe.patel76@example.com,2024-10-06,2025-03-22,United Kingdom,19.37,6,delivered
+1036,Maya Taylor,maya.taylor36@example.com,2024-03-10,2024-08-28,U.K.,64.34,10,pending
+1006,Arjun Brown,arjun.brown6@example.com,2025-01-05,2025-08-14,United States,353.76,1,pending
+1092,  chloe patel  ,chloe.patel92@example.com,2024-12-29,2024-09-21,India,143.43,10,cancelled
+1117,Priya Wilson,priya.wilson117@example.com,2025-05-22,2024-10-22,United Kingdom,407.72,9,shipped
+1054,Noah Khan,noah.khan54@example.com,2024-03-12,2024-10-12,India,N/A,7,cancelled
+1096,Arjun Kumar,arjun.kumar96@example.com,2024-12-18,2025-03-11,Canada,168.74,8,cancelled
+1136,Kabir Jones,kabir.jones136@example.com,2024-04-12,2025-03-30,United States,348.53,1,shipped
+1111,Aarav Smith,aarav.smith111@example.com,2024-11-10,2025-08-05,India,222.38,8,cancelled
+1045,Lucas Wilson,lucas.wilson45@example.com,2024-10-10,2024-02-15,Australia,170.11,3,cancelled
+1052,Ruby Sharma,ruby.sharma52@example.com,2025-04-26,2024-08-15,United States,409.21,8,cancelled
+1127,Ruby Sharma,ruby.sharma127@example.com,2024-10-16,2024-11-01,Canada,,8,pending
+1085,Isla Patel,isla.patel85@example.com,2024-03-18,2024-09-05,Australia,350.11,5,shipped
+1042,Zoe Evans,zoe.evans42@example.com,2025-06-25,2024-01-09,Canada,153.19,2,pending
+1124,Oscar Gupta,oscar.gupta124@example.com,2024-10-25,2025-06-05,India,210.67,8,delivered
+1071,Lucas Patel,lucas.patel71@example.com,2024-10-08,2025-03-26,Australia,358.20,4,cancelled
+1122,Isla Smith,isla.smith122@example.com,2024-11-14,2025-07-18,Australia,278.36,2,pending
+1075,Chloe Sharma,chloe.sharma75@example.com,2024-12-26,2024-11-01,United Kingdom,427.46,7,pending
+1015,Ethan Wilson,ethan.wilson15@example.com,2025-04-24,2025-06-25,India,485.68,1,shipped
+1033,Noah Wilson,noah.wilson33@example.com,23 Jul 2025,2025-05-13,United States,99.00,4,shipped
+1138,Arjun Wilson,arjun.wilson138@example.com,2025-08-02,2024-07-03,United States,91.66,10,delivered
+1143,Isla Brown,isla.brown143@example.com,2024-01-23,2025-02-09,India,9.01,1,delivered
+1111,Aarav Smith,aarav.smith111@example.com,2024-11-10,2025-08-05,India,222.38,8,cancelled
+1134,Ruby Jones,ruby.jones134@example.com,2025-06-30,2025-01-24,India,315.27,8,shipped
+1021,  liam jones  ,liam.jones21@example.com,2025-05-01,2025-07-16,United States,136.20,10,delivered
+1023,Oscar Kumar,oscar.kumar23@example.com,2025-04-07,2024-05-03,USA,116.23,6,shipped
+1017,Chloe Sharma,chloe.sharma17@example.com,2024-09-26,2025-05-27,United States,256.30,2,cancelled
+1121,Oscar Brown,,2025-03-24,2025-05-11,Australia,19.29,10,pending
+1039,CHLOE SINGH,chloe.singh39@example.com,2024-03-15,2024-01-10,United Kingdom,312.47,10,shipped
+1095,Noah Patel,noah.patel95@example.com,2025-02-18,2024-09-06,India,333.66,6,delivered
+1065,Aarav Patel,,2025-05-01,2024-03-15,United Kingdom,210.15,10,pending
+1142,Ethan Khan,ethan.khan142@example.com,2025-05-09,2024-04-19,United States,193.78,6,cancelled
+1109,Noah Gupta,noah.gupta109@example.com,2024-10-16,2025-04-09,AUS,345.26,5,pending
+1080,Kabir Khan,john@@example.com,2025-03-07,2024-09-15,Australia,237.80,9,shipped
+1024,Zoe Kumar,zoe.kumar24@example.com,2024-08-23,2024-08-13,Australia,40.14,1,pending
+1106,Ruby Taylor,ruby.taylor106@example.com,2025-03-15,2024-11-08,Canada,,10,shipped
+1102,Chloe Singh,chloe.singh102@example.com,07 Jul 2024,2024-02-22,India,470.83,8,shipped
+1147,Sofia Smith,sofia.smith147@example.com,2025-07-06,2025-01-09,Canada,253.39,5,pending
+1086,Kabir Taylor,not-an-email,2024-02-12,2024-12-21,Canada,217.05,6,shipped
+1105,Zoe Taylor,zoe.taylor105@example.com,2024-08-19,2025-06-19,United Kingdom,228.00,8,cancelled
+1058,Arjun Clarke,arjun.clarke58@example.com,2025-07-05,2024-07-20,India,218.49,6,cancelled
+1115,Arjun Jones,arjun.jones115@example.com,2025-03-28,2024-10-11,United States,498.49,7,delivered
+1026,Sofia Kumar,sofia.kumar26@example.com,2024-05-15,2025-08-07,Canada,238.97,8,delivered
+1055,Aarav Nguyen,aarav.nguyen55@example.com,2024/09/24,2024-07-01,Canada,481.45,5,shipped
+1141,Chloe Singh,chloe.singh141@example.com,2024-11-02,2025-03-10,India,231.13,5,pending
+1029,Sofia Patel,sofia.patel29@example.com,2025-07-03,2025-04-04,United States,213.83,5,delivered
+1025,Maya Clarke,maya.clarke25@example.com,2024-02-02,2024-12-04,AUS,259.51,5,delivered
+1110,Ethan Nguyen,ethan.nguyen110@example.com,2025/07/11,2024-08-18,United States,454.66,3,shipped
+1071,Lucas Patel,lucas.patel71@example.com,2024-10-08,2025-03-26,Australia,358.20,4,cancelled
+1129,Chloe Clarke,chloe.clarke129@example.com,2024-11-25,2024-07-12,United States,288.04,4,delivered
+1116,Maya Lee,maya.lee116@example.com,2024-12-22,2025-02-22,India,163.92,2,pending

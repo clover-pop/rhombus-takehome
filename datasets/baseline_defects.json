@@ -1,0 +1,110 @@
+{
+  "total_rows": 160,
+  "unique_order_ids": 150,
+  "defect_counts": {
+    "missing_email": 8,
+    "missing_amount": 6,
+    "name_casing_or_spaces": 12,
+    "country_variants": 10,
+    "signup_date_mixed_format": 15,
+    "invalid_email": 6,
+    "negative_quantity": 4,
+    "amount_not_a_number": 4,
+    "exact_duplicates": 10
+  },
+  "defect_order_ids": {
+    "missing_email": [
+      1041,
+      1065,
+      1040,
+      1121,
+      1038,
+      1132,
+      1139,
+      1010
+    ],
+    "missing_amount": [
+      1127,
+      1005,
+      1106,
+      1144,
+      1146,
+      1091
+    ],
+    "name_casing_or_spaces": [
+      1039,
+      1043,
+      1013,
+      1092,
+      1119,
+      1140,
+      1057,
+      1090,
+      1074,
+      1061,
+      1044,
+      1021
+    ],
+    "country_variants": [
+      1025,
+      1126,
+      1109,
+      1108,
+      1048,
+      1125,
+      1036,
+      1103,
+      1032,
+      1023
+    ],
+    "signup_date_mixed_format": [
+      1028,
+      1145,
+      1100,
+      1055,
+      1033,
+      1114,
+      1102,
+      1003,
+      1081,
+      1110,
+      1107,
+      1020,
+      1037,
+      1099,
+      1022
+    ],
+    "invalid_email": [
+      1064,
+      1060,
+      1001,
+      1066,
+      1086,
+      1080
+    ],
+    "negative_quantity": [
+      1051,
+      1073,
+      1034,
+      1070
+    ],
+    "amount_not_a_number": [
+      1128,
+      1054,
+      1084,
+      1000
+    ],
+    "exact_duplicates": [
+      1018,
+      1111,
+      1131,
+      1079,
+      1071,
+      1008,
+      1026,
+      1072,
+      1135,
+      1147
+    ]
+  }
+}
