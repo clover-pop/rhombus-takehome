@@ -6,3 +6,6 @@ __pycache__/
 node_modules/
 auth_state.json
 .DS_Store
+secrets/
+*-key.json
+*credentials*.json
