@@ -1,0 +1,16 @@
+Pipeline failed at orders_country_std: LLM execution failed (code_sha=b1bde1b05f09): Column 'country' does not exist in input_df_1! --- Generated code --- import pandas as pd import numpy as np def _safe_to_timedelta_wrapper(arg, *args, **kwargs): try: arg_series = pd.Series(arg) e…
+
+Ask Chatbot
+{
+  "kind": "pipeline_summary",
+  "status": "error",
+  "failure": {
+    "message": "Pipeline failed at orders_country_std: LLM execution failed (code_sha=b1bde1b05f09): Column 'country' does not exist in input_df_1!\n--- Generated code ---\nimport pandas as pd\nimport numpy as np\ndef _safe_to_timedelta_wrapper(arg, *args, **kwargs):\n    try:\n        arg_series = pd.Series(arg)\n    e…",
+    "reason": "LLM execution failed (code_sha=b1bde1b05f09): Column 'country' does not exist in input_df_1!\n--- Generated code ---\nimport pandas as pd\nimport numpy as np\ndef _safe_to_timedelta_wrapper(arg, *args, **kwargs):\n    try:\n        arg_series = pd.Series(arg)\n    e…",
+    "nodeId": "llm_node_2",
+    "nodeLabel": "orders_country_std",
+    "nodeRef": "llm_node_2"
+  },
+  "nodeId": "llm_node_2",
+  "nodeName": "orders_country_std"
+}

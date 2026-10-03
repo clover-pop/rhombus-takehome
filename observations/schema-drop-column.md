@@ -7,7 +7,7 @@ Removed the email column from the source file (datasets/drift_drop_column.csv: 1
 The pipeline would fail at the email validation step (or carry on and let every row through).
 
 ## What happened
-The run failed at 10:34:38 AM on 3 Oct (Sydney). The node orders_valid_email (shown on the canvas as "Custom llm_node_4") went red, the nodes before it succeeded, and nothing after it ran. No output file reached GCS.
+The run failed at 10:34:38 AM on 3 Oct (Sydney) execution #16473. The node orders_valid_email (shown on the canvas as "Custom llm_node_4") went red, the nodes before it succeeded, and nothing after it ran. No output file reached GCS.
 
 ## What the logs said
 The error reads: Pipeline failed at orders_valid_email, LLM execution failed, Column 'email' does not exist in input_df_1. It is followed by a long block of generated code that is cut off in the log panel (full text in evidence/drop-column-error.txt).
@@ -26,3 +26,4 @@ Low for the drift handling: the pipeline stopped and wrote nothing, so no bad da
 ## Evidence
 - evidence/drop-column-logs.png
 - evidence/drop-column-error.txt
+- evidence/drop-column-dashboard failure
