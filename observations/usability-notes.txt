@@ -1,1 +1,2 @@
-No project duplication or version history, which makes it hard to test a fix without risking the working pipeline.
+- No project duplication or version history, which makes it hard to test a fix without risking the working pipeline.
+- The browser network trace reveals that a POST request to the `/api/internal-ops/config/` endpoint fires automatically on every single page load, yielding a consistent '403 Forbidden' response. The system is generating unnecessary failed internal telemetry requests during ordinary user browsing sessions.

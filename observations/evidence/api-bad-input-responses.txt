@@ -1,0 +1,35 @@
+== invalid paging and limits (each sent twice) ==
+schedules page=0 page_size=5 (try 1) -> 500 | text/html; charset=utf-8 | <!doctype html> <html lang="en"> <head>   <title>Server Error (500)</title> </head> <body>   <h1>Server Error (500)</h1><p></p> </body> </html>
+schedules page=0 page_size=5 (try 2) -> 500 | text/html; charset=utf-8 | <!doctype html> <html lang="en"> <head>   <title>Server Error (500)</title> </head> <body>   <h1>Server Error (500)</h1><p></p> </body> </html>
+schedules page=-1 page_size=5 (try 1) -> 500 | text/html; charset=utf-8 | <!doctype html> <html lang="en"> <head>   <title>Server Error (500)</title> </head> <body>   <h1>Server Error (500)</h1><p></p> </body> </html>
+schedules page=-1 page_size=5 (try 2) -> 500 | text/html; charset=utf-8 | <!doctype html> <html lang="en"> <head>   <title>Server Error (500)</title> </head> <body>   <h1>Server Error (500)</h1><p></p> </body> </html>
+schedules page=1 page_size=0 (try 1) -> 200 | application/json; charset=utf-8 | {"schedules": [], "total": 1, "page": 1, "page_size": 0, "stats": {"frequency_counts": {"hourly": 1}, "enabled_count": 1, "total_count": 1}}
+schedules page=1 page_size=0 (try 2) -> 200 | application/json; charset=utf-8 | {"schedules": [], "total": 1, "page": 1, "page_size": 0, "stats": {"frequency_counts": {"hourly": 1}, "enabled_count": 1, "total_count": 1}}
+schedules page=1 page_size=10000 (try 1) -> 200 | application/json; charset=utf-8 | {"schedules": [{"id": 201, "project_id": 5009, "org_role": "admin", "name": "Schedule for rhombus-takehome", "deployment_name": "project-5009-schedule-1790941191", "frequency": "hourly", "schedule_tim
+schedules page=1 page_size=10000 (try 2) -> 200 | application/json; charset=utf-8 | {"schedules": [{"id": 201, "project_id": 5009, "org_role": "admin", "name": "Schedule for rhombus-takehome", "deployment_name": "project-5009-schedule-1790941191", "frequency": "hourly", "schedule_tim
+schedules page=abc page_size=5 (try 1) -> 422 | application/json; charset=utf-8 | {"detail": [{"type": "int_parsing", "loc": ["query", "page"], "msg": "Input should be a valid integer, unable to parse string as an integer"}]}
+schedules page=abc page_size=5 (try 2) -> 422 | application/json; charset=utf-8 | {"detail": [{"type": "int_parsing", "loc": ["query", "page"], "msg": "Input should be a valid integer, unable to parse string as an integer"}]}
+history limit=abc (try 1) -> 422 | application/json; charset=utf-8 | {"detail": [{"type": "int_parsing", "loc": ["query", "limit"], "msg": "Input should be a valid integer, unable to parse string as an integer"}]}
+history limit=abc (try 2) -> 422 | application/json; charset=utf-8 | {"detail": [{"type": "int_parsing", "loc": ["query", "limit"], "msg": "Input should be a valid integer, unable to parse string as an integer"}]}
+history limit=-5 (try 1) -> 500 | text/html; charset=utf-8 | <!doctype html> <html lang="en"> <head>   <title>Server Error (500)</title> </head> <body>   <h1>Server Error (500)</h1><p></p> </body> </html>
+history limit=-5 (try 2) -> 500 | text/html; charset=utf-8 | <!doctype html> <html lang="en"> <head>   <title>Server Error (500)</title> </head> <body>   <h1>Server Error (500)</h1><p></p> </body> </html>
+history limit=10000 (try 1) -> 422 | application/json; charset=utf-8 | {"detail": [{"type": "less_than_equal", "loc": ["query", "limit"], "msg": "Input should be less than or equal to 50", "ctx": {"le": 50}}]}
+history limit=10000 (try 2) -> 422 | application/json; charset=utf-8 | {"detail": [{"type": "less_than_equal", "loc": ["query", "limit"], "msg": "Input should be less than or equal to 50", "ctx": {"le": 50}}]}
+
+== missing or bad credentials ==
+accounts/users/credits | no header -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}
+accounts/users/credits | empty bearer -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}
+accounts/users/credits | garbage token -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}
+accounts/users/credits | wrong scheme -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}
+accounts/users/profile | no header -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}
+accounts/users/profile | empty bearer -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}
+accounts/users/profile | garbage token -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}
+accounts/users/profile | wrong scheme -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}
+dataset/analyzer/v2/pipeline/schedules/all | no header -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}
+dataset/analyzer/v2/pipeline/schedules/all | empty bearer -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}
+dataset/analyzer/v2/pipeline/schedules/all | garbage token -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}
+dataset/analyzer/v2/pipeline/schedules/all | wrong scheme -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}
+dataset/analyzer/v2/projects/5009/chat/history | no header -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}
+dataset/analyzer/v2/projects/5009/chat/history | empty bearer -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}
+dataset/analyzer/v2/projects/5009/chat/history | garbage token -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}
+dataset/analyzer/v2/projects/5009/chat/history | wrong scheme -> 401 | application/json; charset=utf-8 | {"detail": "Unauthorized"}

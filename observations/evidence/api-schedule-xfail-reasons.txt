@@ -1,0 +1,54 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/aadyasharma/Desktop/rhombus-takehome/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/aadyasharma/Desktop/rhombus-takehome
+plugins: base-url-2.1.0, playwright-0.7.1
+collecting ... collected 5 items / 3 deselected / 2 selected
+
+api-tests/test_schedules_api.py::test_enabled_schedule_next_run_is_not_stale FAILED [ 50%]
+api-tests/test_schedules_api.py::test_enabled_hourly_schedule_has_run_at_least_once FAILED [100%]
+
+=================================== FAILURES ===================================
+_________________ test_enabled_schedule_next_run_is_not_stale __________________
+
+schedules = [{'created_at': '2026-10-02T11:39:51.782Z', 'cron_expression': '45 * * * *', 'deployment_name': 'project-5009-schedule-1790941191', 'enabled': True, ...}]
+
+    @pytest.mark.xfail(reason=KNOWN_ISSUE, strict=False)
+    def test_enabled_schedule_next_run_is_not_stale(schedules):
+        now = utcnow()
+        for s in schedules:
+            if s["enabled"]:
+                assert s["next_run_at"] is not None, "schedule " + str(s["id"]) + " has no next_run_at"
+>               assert parse_ts(s["next_run_at"]) > now - timedelta(minutes=10), (
+                    "schedule " + str(s["id"]) + " next_run_at " + s["next_run_at"] + " is in the past"
+                )
+E               AssertionError: schedule 201 next_run_at 2026-10-02T11:45:00Z is in the past
+E               assert datetime.datetime(2026, 10, 2, 11, 45, tzinfo=datetime.timezone.utc) > (datetime.datetime(2026, 10, 3, 23, 41, 20, 539386, tzinfo=datetime.timezone.utc) - datetime.timedelta(seconds=600))
+E                +  where datetime.datetime(2026, 10, 2, 11, 45, tzinfo=datetime.timezone.utc) = parse_ts('2026-10-02T11:45:00Z')
+E                +  and   datetime.timedelta(seconds=600) = timedelta(minutes=10)
+
+api-tests/test_schedules_api.py:73: AssertionError
+______________ test_enabled_hourly_schedule_has_run_at_least_once ______________
+
+schedules = [{'created_at': '2026-10-02T11:39:51.782Z', 'cron_expression': '45 * * * *', 'deployment_name': 'project-5009-schedule-1790941191', 'enabled': True, ...}]
+
+    @pytest.mark.xfail(reason=KNOWN_ISSUE, strict=False)
+    def test_enabled_hourly_schedule_has_run_at_least_once(schedules):
+        now = utcnow()
+        old_enough = [s for s in schedules
+                      if s["enabled"] and s["frequency"] == "hourly"
+                      and now - parse_ts(s["created_at"]) > timedelta(hours=2)]
+        if not old_enough:
+            pytest.skip("no enabled hourly schedule older than two hours")
+        for s in old_enough:
+>           assert s["last_run_at"] is not None, (
+                "schedule " + str(s["id"]) + " created " + s["created_at"] + " has never run"
+            )
+E           AssertionError: schedule 201 created 2026-10-02T11:39:51.782Z has never run
+E           assert None is not None
+
+api-tests/test_schedules_api.py:87: AssertionError
+=========================== short test summary info ============================
+FAILED api-tests/test_schedules_api.py::test_enabled_schedule_next_run_is_not_stale
+FAILED api-tests/test_schedules_api.py::test_enabled_hourly_schedule_has_run_at_least_once
+======================= 2 failed, 3 deselected in 1.97s ========================
