@@ -15,3 +15,4 @@ Scheduled runs: none ever appeared in the execution history (see observations/sc
 | #16479 | drift_type_change | manual (harness) | 3 Oct 12:47:03 | 4.8s | failure | none | | failed at orders_valid_amount; error is a NameError for TypeError in generated code || #? | accidental baseline run | manual | 3 Oct 13:58:27 | | success | | | pressed Run by mistake while the baseline was in S3; output deleted from GCS |
 | #16491 | accidental baseline run | manual | 3 Oct 13:58:44 | | success | | | same; output deleted from GCS |
 | #16492 | drift_new_column | manual (harness) | 3 Oct 14:00:22 | ~8s | success | 122 | | extra column loyalty_tier passed through to GCS |
+| #? | drift_combined_schema | manual (harness) | 3 Oct 18:17:04 | ~4s | failure | none | | failed at orders_country_std; only the first missing column reported |
