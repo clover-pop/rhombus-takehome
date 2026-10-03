@@ -2,3 +2,5 @@
 {"case": "baseline_run2", "dataset": "datasets/baseline.csv", "status": "output_found", "outputs": [{"blob": "RhombusAI_output_1790944037123.csv", "created": "2026-10-02T12:27:18.767000+00:00", "saved_as": "baseline_run2.csv", "seconds_after_upload": 14.7}], "uploaded_at": "2026-10-02T12:27:04.024593+00:00"}
 {"case": "baseline_run3", "dataset": "datasets/baseline.csv", "status": "output_found", "outputs": [{"blob": "RhombusAI_output_1790944091149.csv", "created": "2026-10-02T12:28:12.724000+00:00", "saved_as": "baseline_run3.csv", "seconds_after_upload": 16.5}], "uploaded_at": "2026-10-02T12:27:56.193042+00:00"}
 {"case": "drift_drop_column", "dataset": "datasets/drift_drop_column.csv", "status": "no_output", "outputs": [], "uploaded_at": "2026-10-03T00:34:23.926621+00:00"}
+{"case": "drift_rename_column", "dataset": "datasets/drift_rename_column.csv", "status": "no_output", "outputs": [], "uploaded_at": "2026-10-03T01:13:26.496071+00:00"}
+{"case": "drift_type_change", "dataset": "datasets/drift_type_change.csv", "status": "no_output", "outputs": [], "uploaded_at": "2026-10-03T02:46:57.630773+00:00"}

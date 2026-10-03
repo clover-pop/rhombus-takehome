@@ -12,3 +12,4 @@
 | #16429 | baseline_run3 | manual (harness) | 2 Oct 22:28:06 | 6.5s | success | 122 | | identical to run1 |
 
 Scheduled runs: none ever appeared in the execution history (see observations/schedule-not-triggering.md).
+| #16479 | drift_type_change | manual (harness) | 3 Oct 12:47:03 | 4.8s | failure | none | | failed at orders_valid_amount; error is a NameError for TypeError in generated code |
