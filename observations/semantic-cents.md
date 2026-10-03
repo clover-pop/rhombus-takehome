@@ -19,7 +19,7 @@ Yes, with 2 of 22 checks failing:
 The checks that compare the output only with this run's own input all passed (row counts, order IDs, schema), because both sides were in cents. Detecting this drift needs a reference to compare against: the baseline or a plausible range.
 
 ## What the logs said
-Nothing unusual. Full transformation log in evidence/semantic-cents-transformations.txt.
+Nothing unusual. Full transformation log in evidence/semantic-cents-success.txt.
 
 ## What the chatbot said
 Not applicable: no error to give it.

@@ -18,3 +18,4 @@ Scheduled runs: none ever appeared in the execution history (see observations/sc
 | #? | drift_combined_schema | manual (harness) | 3 Oct 18:17:04 | ~4s | failure | none | | failed at orders_country_std; only the first missing column reported |
 | #? | drift_semantic_cents | manual (harness) | 3 Oct 18:26:26 | ~8s | success | 122 | | amounts 100x too large, no warning from Rhombus; validator failed 2 checks |
 | #? | drift_semantic_dates_ddmm | manual (harness) | 3 Oct | ~8s | success | 122 | | 42 of 49 ambiguous order_dates month/day swapped, no warning; validator failed 1 check |
+| #? | drift_semantic_status_swap | manual (harness) | 3 Oct | ~8s | success | 122 | | 63 of 122 statuses wrong (shipped/delivered exchanged), no warning; validator failed 1 check |

@@ -24,6 +24,6 @@ Pipeline failed at orders_country_std: LLM execution failed (code_sha=b1bde1b05f
 Medium. The pipeline stopped and wrote nothing, which is safe. But the error hides the other three changes, so repairing the pipeline could take several failed runs, and the contradictory job-completed message is still logged after the failure.
 
 ## Evidence
-- evidence/combined-logs.png
-- evidence/combined-dashboard-failure.png
-- evidence/combined-error.txt
+- evidence/schema-combined-logs.png
+- evidence/schema-combined-dashboard-failure.png
+- evidence/schema-combined-error.txt

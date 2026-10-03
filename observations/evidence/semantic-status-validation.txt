@@ -1,0 +1,25 @@
+case: drift_semantic_status_swap | output rows: 122 | expected rows: 122
+[PASS] schema: columns match: missing=[] extra=[]
+[PASS] schema: column order
+[PASS] row count: got 122, expected 122
+[PASS] output has no more rows than input: input 160, output 122
+[PASS] every output order_id exists in input: []
+[PASS] no duplicate rows: 0 duplicates
+[PASS] rule: valid emails only
+[PASS] rule: country is a full name
+[PASS] rule: signup_date is YYYY-MM-DD
+[PASS] rule: order_date is YYYY-MM-DD
+[PASS] rule: amount numeric and plausible (5 to 500)
+[PASS] rule: quantity is at least 1
+[PASS] rule: names trimmed and title case
+[PASS] same order_ids as expected: missing 0, unexpected 0
+[PASS] values match expected: customer_name
+[PASS] values match expected: email
+[PASS] values match expected: signup_date
+[PASS] values match expected: order_date
+[PASS] values match expected: country
+[PASS] values match expected: amount_usd
+[PASS] values match expected: quantity
+[FAIL] values match expected: status: 63 of 122 differ, e.g. 1093: delivered -> shipped; 1057: shipped -> delivered; 1130: delivered -> shipped
+
+summary: 21 ok or skipped, 1 failed

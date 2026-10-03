@@ -13,7 +13,7 @@ The run succeeded (started 2:00:22 PM, completed 2:00:30 PM on 3 Oct, execution 
 20 of 21 checks passed. The only failure was "schema: columns match: extra=['loyalty_tier']". Row count (122), duplicates, emails, countries, dates, amounts, quantities and values all matched the expected baseline output.
 
 ## What the logs said
-Normal success entries. The "Applied 8 transformations" entry lists what each node did but never mentions loyalty_tier or any schema change. The only trace is indirect: every node reports output_column_count 10 (the baseline has 9), and the whitespace trimming node reports 800 cells modified (160 rows x 5), which likely means loyalty_tier was included in that step because its code loops over all text columns. Full log in evidence/new-column-transformations.json.
+Normal success entries. The "Applied 8 transformations" entry lists what each node did but never mentions loyalty_tier or any schema change. The only trace is indirect: every node reports output_column_count 10 (the baseline has 9), and the whitespace trimming node reports 800 cells modified (160 rows x 5), which likely means loyalty_tier was included in that step because its code loops over all text columns. Full log in evidence/new-column-success.txt.
 
 Other things noticed in this log:
 - The "Impact" figures are not real change counts. The trim node reports 800 cells modified, but its code marks every text cell as modified without checking whether the value changed.

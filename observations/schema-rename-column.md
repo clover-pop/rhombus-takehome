@@ -28,4 +28,4 @@ Low to medium. The pipeline stopped and wrote nothing, so no bad data reached GC
 ## Evidence
 - evidence/rename-column-logs.png
 - evidence/rename-column-error.txt
-- evidence/rename-column-dashboard.png
+- evidence/rename-column-dashboard-failure.png
