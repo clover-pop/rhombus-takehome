@@ -21,3 +21,4 @@ Scheduled runs: none ever appeared in the execution history (see observations/sc
 | #? | drift_semantic_status_swap | manual (harness) | 3 Oct | ~8s | success | 122 | | 63 of 122 statuses wrong (shipped/delivered exchanged), no warning; validator failed 1 check |
 | #? | chatbot_drop_after_fix | manual (harness) | 3 Oct 22:25:27 | ~5s | failure | none | | same failure at orders_valid_email after chatbot edit |
 | #? | baseline_after_chatbot_fix | manual (harness) | 3 Oct | ~7s | success | 122 | | identical to baseline_run1; all 23 checks passed |
+| #? | chatbot_rename_check | manual (harness) | 3 Oct 23:38:57 | ~5s | failure | none | | same failure at orders_country_std after chatbot edit; same code_sha as before |

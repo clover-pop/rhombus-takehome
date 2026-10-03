@@ -1,0 +1,30 @@
+The error is straightforward to diagnose from the message itself — no pipeline inspection needed.
+
+---
+
+## What Went Wrong
+
+**Root cause:** The LLM transformer at `orders_valid_amount` generated Python code that references `TypeError` as a name — but the sandboxed execution environment used by Rhombus's LLM transformer node does **not** automatically expose Python built-in exceptions like `TypeError`, `ValueError`, `KeyError`, etc. in its namespace.
+
+In a normal Python runtime, `TypeError` is always available because it lives in the implicit `builtins` module. In Rhombus's transformer execution context, that implicit built-in scope is restricted, so any reference to `TypeError` (e.g. `except TypeError:` or `raise TypeError(...)`) resolves to **nothing** — hence `name 'TypeError' is not defined`.
+
+**Why it happened here specifically:** The `orders_valid_amount` node is trying to validate monetary/numeric amount values. The LLM generated a defensive pattern — likely something like:
+
+```python
+except TypeError:
+    # handle non-numeric input
+```
+
+or
+
+```python
+if isinstance(val, TypeError):  # incorrect usage
+```
+
+...without first importing or aliasing the exception. Because amount validation naturally involves catching type-mismatch errors (e.g., a string like `"N/A"` passed where a float is expected), `TypeError` is a natural exception to reach for — and the LLM reached for it without accounting for the restricted namespace.
+
+---
+
+## In Plain Terms
+
+The auto-generated validation code tried to catch or raise a standard Python exception (`TypeError`) that isn't available in the transformer's sandboxed scope. The fix would be to either import builtins explicitly (`from builtins import TypeError`) or restructure the validation to use only the safe utilities pre-loaded in that environment (e.g., `pd.to_numeric(..., errors='coerce')` instead of try/except TypeError). But since you asked not to change anything, that's the diagnosis.

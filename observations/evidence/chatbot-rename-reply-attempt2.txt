@@ -1,0 +1,32 @@
+Here's what went wrong and why.
+
+---
+
+## Root Cause: Column Name Mismatch in `orders_country_std`
+
+The `orders_country_std` node's **currently saved code** references a column called `'country'`, but the actual column flowing in from upstream is named **`'country_name'`**. Because that column doesn't exist, the node's own guard clause fires and raises the error:
+
+> `Column 'country' does not exist in input_df_1!`
+
+### The Evidence
+
+Inspecting the node reveals **two versions of its code** that are out of sync:
+
+| Version | Column referenced |
+|---|---|
+| **Current saved code** (`params_info.code`) | `'country'` |
+| **Last successfully executed code** | `'country_name'` |
+
+The last execution ran fine using `'country_name'`. At some point after that, the node's code was edited and the column name was changed back to `'country'` — but no column by that name exists in the upstream data. When the pipeline ran again with the updated (saved) code, it failed immediately.
+
+### The Upstream Column Flow
+
+Tracing the chain:
+
+- `orders_raw` → `orders_trimmed` (strips whitespace from column names and values) → `orders_title_case` (title-cases `customer_name` only) → **`orders_country_std`**
+
+None of the upstream nodes rename or drop any column. The column arriving at `orders_country_std` is `country_name`, which is what the previously working execution code correctly used.
+
+### Summary
+
+The node's saved code was modified to use `'country'` instead of `'country_name'`, creating a drift from both the upstream schema and the last working execution. The fix would be to update the saved code to reference `'country_name'` consistently — but per your request, no changes have been made.

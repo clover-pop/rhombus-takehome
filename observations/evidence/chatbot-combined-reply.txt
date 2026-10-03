@@ -1,0 +1,30 @@
+Here's what went wrong:
+
+## Root Cause: Column Name Mismatch After `orders_trimmed`
+
+The error is a **column name casing issue** introduced by the `orders_trimmed` node. Here's the chain of events:
+
+### What `orders_trimmed` does
+That node strips whitespace from column names:
+```python
+target_df.columns = target_df.columns.str.strip()
+```
+This strips leading/trailing spaces, but it does **not** change the case of column names. So if the raw source (`orders_raw`) has the column named `Country` (capital C), `  country  ` (with spaces), or any variation, after stripping it might still come through as `Country` — not `country`.
+
+### What `orders_title_case` does next
+The `orders_title_case` node applies **title case** to the `customer_name` column specifically. It does **not** touch column names. However — and this is the key — `text_case_convert` may apply title casing to column headers as a side effect depending on its implementation, **or** the source data itself has a column header like `Country` that was already in title case.
+
+### What `orders_country_std` expects
+The code in this node explicitly checks:
+```python
+if 'country' not in output_df.columns:
+    raise ValueError("Column 'country' does not exist in input_df_1!")
+```
+It expects the column name in **all lowercase**: `country`. If the column is actually named `Country` (title case) — which is plausible given that `orders_title_case` ran just before and the raw data likely has `Country` as a header — this exact check fails and raises the error you saw.
+
+### Most likely scenario
+The source CSV (`baseline.csv`) has a column header `Country` (capital C). The `orders_trimmed` strip only removes spaces, leaving it as `Country`. Then `orders_title_case` (title case transformer) either preserves or reinforces `Country`. When `orders_country_std` looks for `country` (lowercase), it doesn't find it and throws the error.
+
+---
+
+**In short:** The `orders_country_std` node's code assumes the column is lowercase `country`, but the actual column coming through the pipeline is likely `Country` (title-cased). The fix would be to either normalize column names to lowercase in `orders_trimmed`, or update `orders_country_std` to do a case-insensitive column lookup — but you've asked me not to change the pipeline, so this is purely the explanation.

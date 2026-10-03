@@ -1,0 +1,15 @@
+This error has exactly the same root cause as the `orders_valid_email` failure we just fixed — and the fix I already applied to `orders_trimmed` will resolve this one too.
+
+Here is what happened:
+
+**The source CSV has at least one column header with leading or trailing whitespace** — for example, `" country"` instead of `"country"`. When pandas reads the file, it preserves that whitespace in the column name exactly as written.
+
+The `orders_trimmed` node (before the fix) was only stripping *cell values*, not *column names*. So `" country"` passed through unchanged. By the time execution reached `orders_country_std`, the dataframe's column was still called `" country"`, and the node's code checks for the exact string `"country"` — which doesn't match — so it raises the error:
+
+```
+Column 'country' does not exist in input_df_1!
+```
+
+The same issue would have surfaced at every downstream node that references a column by its exact name (`email`, `amount_usd`, `quantity`, etc.), which is why the `orders_valid_email` error appeared first during a previous run — whichever node ran first encountered it first.
+
+The `target_df.columns = target_df.columns.str.strip()` line I added to `orders_trimmed` strips all column name whitespace at the very start of the pipeline, before any downstream node ever sees the data. Once that fix runs, the `orders_country_std` error will not recur.
