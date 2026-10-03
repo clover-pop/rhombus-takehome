@@ -1,0 +1,11 @@
+ambiguous (day 12 or lower): {'month and day swapped': 42, 'correct': 7}
+unambiguous (day above 12): {'correct': 73}
+
+order 1008 | original 2024-08-02 | output 2024-02-08 | month and day swapped
+order 1094 | original 2025-05-02 | output 2025-02-05 | month and day swapped
+order 1131 | original 2024-12-05 | output 2024-05-12 | month and day swapped
+order 1004 | original 2024-04-09 | output 2024-09-04 | month and day swapped
+order 1002 | original 2025-03-05 | output 2025-05-03 | month and day swapped
+order 1059 | original 2024-11-03 | output 2024-03-11 | month and day swapped
+order 1026 | original 2025-08-07 | output 2025-07-08 | month and day swapped
+order 1104 | original 2024-11-07 | output 2024-07-11 | month and day swapped

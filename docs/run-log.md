@@ -17,3 +17,4 @@ Scheduled runs: none ever appeared in the execution history (see observations/sc
 | #16492 | drift_new_column | manual (harness) | 3 Oct 14:00:22 | ~8s | success | 122 | | extra column loyalty_tier passed through to GCS |
 | #? | drift_combined_schema | manual (harness) | 3 Oct 18:17:04 | ~4s | failure | none | | failed at orders_country_std; only the first missing column reported |
 | #? | drift_semantic_cents | manual (harness) | 3 Oct 18:26:26 | ~8s | success | 122 | | amounts 100x too large, no warning from Rhombus; validator failed 2 checks |
+| #? | drift_semantic_dates_ddmm | manual (harness) | 3 Oct | ~8s | success | 122 | | 42 of 49 ambiguous order_dates month/day swapped, no warning; validator failed 1 check |
