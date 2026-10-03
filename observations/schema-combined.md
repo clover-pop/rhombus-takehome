@@ -26,6 +26,9 @@ Asked from the 6:17:08 PM log entry with the message edited to say "do not chang
 ## Did the fix work?
 Not applicable: no change was applied. It proposed normalising column names to lowercase or making the lookup case-insensitive, which would not help because the real problem is a renamed column.
 
+## Extra evidence from the chat history API
+The backend's record of my question (evidence/api-chat-history-combined.json) shows attached_datasets and dataset_refs empty, and the assistant's tool transcript lists only ToolSearch and inspect_pipeline. This is consistent with the chatbot reading the pipeline and never the data. (An empty attachment list alone does not prove it could not fetch data another way, but no data-reading tool was used.)
+
 ## Severity
 Medium. The pipeline stopped and wrote nothing, which is safe. But the error hides the other three changes, so repairing the pipeline could take several failed runs, and the contradictory job-completed message is still logged after the failure.
 

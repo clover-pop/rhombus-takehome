@@ -1,0 +1,111 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/aadyasharma/Desktop/rhombus-takehome/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/aadyasharma/Desktop/rhombus-takehome
+plugins: base-url-2.1.0, playwright-0.7.1
+collecting ... collected 35 items
+
+api-tests/test_accounts_api.py::test_credits_response_is_consistent PASSED [  2%]
+api-tests/test_accounts_api.py::test_profile_has_name_fields_and_leaks_nothing_sensitive PASSED [  5%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[no_header-/api/accounts/users/credits] PASSED [  8%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[no_header-/api/accounts/users/profile] PASSED [ 11%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[no_header-/api/dataset/analyzer/v2/pipeline/schedules/all?page=1&page_size=5] PASSED [ 14%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[no_header-/api/dataset/analyzer/v2/projects/5009/chat/history?limit=5&structured=true] PASSED [ 17%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[empty_bearer-/api/accounts/users/credits] PASSED [ 20%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[empty_bearer-/api/accounts/users/profile] PASSED [ 22%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[empty_bearer-/api/dataset/analyzer/v2/pipeline/schedules/all?page=1&page_size=5] PASSED [ 25%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[empty_bearer-/api/dataset/analyzer/v2/projects/5009/chat/history?limit=5&structured=true] PASSED [ 28%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[garbage_token-/api/accounts/users/credits] PASSED [ 31%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[garbage_token-/api/accounts/users/profile] PASSED [ 34%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[garbage_token-/api/dataset/analyzer/v2/pipeline/schedules/all?page=1&page_size=5] PASSED [ 37%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[garbage_token-/api/dataset/analyzer/v2/projects/5009/chat/history?limit=5&structured=true] PASSED [ 40%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[wrong_scheme-/api/accounts/users/credits] PASSED [ 42%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[wrong_scheme-/api/accounts/users/profile] PASSED [ 45%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[wrong_scheme-/api/dataset/analyzer/v2/pipeline/schedules/all?page=1&page_size=5] PASSED [ 48%]
+api-tests/test_auth_negative.py::test_unauthenticated_requests_are_rejected[wrong_scheme-/api/dataset/analyzer/v2/projects/5009/chat/history?limit=5&structured=true] PASSED [ 51%]
+api-tests/test_bad_input_api.py::test_schedule_list_handles_bad_paging[params0] FAILED [ 54%]
+api-tests/test_bad_input_api.py::test_schedule_list_handles_bad_paging[params1] FAILED [ 57%]
+api-tests/test_bad_input_api.py::test_schedule_list_handles_bad_paging[params2] PASSED [ 60%]
+api-tests/test_bad_input_api.py::test_schedule_list_handles_bad_paging[params3] PASSED [ 62%]
+api-tests/test_bad_input_api.py::test_schedule_list_handles_bad_paging[params4] PASSED [ 65%]
+api-tests/test_bad_input_api.py::test_history_handles_bad_limit[params0] PASSED [ 68%]
+api-tests/test_bad_input_api.py::test_history_handles_bad_limit[params1] FAILED [ 71%]
+api-tests/test_bad_input_api.py::test_history_handles_bad_limit[params2] PASSED [ 74%]
+api-tests/test_chat_history_api.py::test_history_envelope_is_consistent PASSED [ 77%]
+api-tests/test_chat_history_api.py::test_every_message_is_well_formed PASSED [ 80%]
+api-tests/test_chat_history_api.py::test_every_reply_has_a_user_message_in_the_same_run PASSED [ 82%]
+api-tests/test_chat_history_api.py::test_limit_parameter_is_respected PASSED [ 85%]
+api-tests/test_schedules_api.py::test_list_totals_are_consistent PASSED  [ 88%]
+api-tests/test_schedules_api.py::test_every_schedule_has_the_expected_fields PASSED [ 91%]
+api-tests/test_schedules_api.py::test_cron_expression_matches_the_frequency_label PASSED [ 94%]
+api-tests/test_schedules_api.py::test_enabled_schedule_next_run_is_not_stale XFAIL [ 97%]
+api-tests/test_schedules_api.py::test_enabled_hourly_schedule_has_run_at_least_once XFAIL [100%]
+
+=================================== FAILURES ===================================
+________________ test_schedule_list_handles_bad_paging[params0] ________________
+
+api = <api_helpers.Api object at 0x10b0c2880>
+params = {'page': 0, 'page_size': 5}
+
+    @pytest.mark.parametrize("params", BAD_SCHEDULE_PARAMS)
+    def test_schedule_list_handles_bad_paging(api, params):
+>       check_handled_cleanly(api.get(SCHEDULES, params=params))
+
+api-tests/test_bad_input_api.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = <Response [500]>
+
+    def check_handled_cleanly(response):
+>       assert response.status_code < 500, "server error " + str(response.status_code) + " on bad input"
+E       AssertionError: server error 500 on bad input
+E       assert 500 < 500
+E        +  where 500 = <Response [500]>.status_code
+
+api-tests/test_bad_input_api.py:16: AssertionError
+________________ test_schedule_list_handles_bad_paging[params1] ________________
+
+api = <api_helpers.Api object at 0x10b0c2880>
+params = {'page': -1, 'page_size': 5}
+
+    @pytest.mark.parametrize("params", BAD_SCHEDULE_PARAMS)
+    def test_schedule_list_handles_bad_paging(api, params):
+>       check_handled_cleanly(api.get(SCHEDULES, params=params))
+
+api-tests/test_bad_input_api.py:22: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = <Response [500]>
+
+    def check_handled_cleanly(response):
+>       assert response.status_code < 500, "server error " + str(response.status_code) + " on bad input"
+E       AssertionError: server error 500 on bad input
+E       assert 500 < 500
+E        +  where 500 = <Response [500]>.status_code
+
+api-tests/test_bad_input_api.py:16: AssertionError
+___________________ test_history_handles_bad_limit[params1] ____________________
+
+api = <api_helpers.Api object at 0x10b0c2880>, project_id = '5009'
+params = {'limit': -5}
+
+    @pytest.mark.parametrize("params", BAD_HISTORY_PARAMS)
+    def test_history_handles_bad_limit(api, project_id, params):
+>       check_handled_cleanly(api.get(HISTORY.format(project_id=project_id), params=params))
+
+api-tests/test_bad_input_api.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+response = <Response [500]>
+
+    def check_handled_cleanly(response):
+>       assert response.status_code < 500, "server error " + str(response.status_code) + " on bad input"
+E       AssertionError: server error 500 on bad input
+E       assert 500 < 500
+E        +  where 500 = <Response [500]>.status_code
+
+api-tests/test_bad_input_api.py:16: AssertionError
+=========================== short test summary info ============================
+XFAIL api-tests/test_schedules_api.py::test_enabled_schedule_next_run_is_not_stale - Known issue: scheduled runs never fire (see observations/schedule-not-triggering.md)
+XFAIL api-tests/test_schedules_api.py::test_enabled_hourly_schedule_has_run_at_least_once - Known issue: scheduled runs never fire (see observations/schedule-not-triggering.md)
+=================== 3 failed, 30 passed, 2 xfailed in 7.26s ====================

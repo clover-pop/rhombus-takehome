@@ -1,0 +1,32 @@
+{
+    "schedules": [
+        {
+            "id": 201,
+            "project_id": 5009,
+            "org_role": "admin",
+            "name": "Schedule for rhombus-takehome",
+            "deployment_name": "project-5009-schedule-1790941191",
+            "frequency": "hourly",
+            "schedule_time_utc": "*:45",
+            "cron_expression": "45 * * * *",
+            "enabled": true,
+            "notify_on_failure": true,
+            "keep_last_n_executions": 10,
+            "next_run_at": "2026-10-02T11:45:00Z",
+            "last_run_at": null,
+            "created_at": "2026-10-02T11:39:51.782Z",
+            "project_name": "rhombus-takehome",
+            "skipped_runs_count": 0
+        }
+    ],
+    "total": 1,
+    "page": 1,
+    "page_size": 5,
+    "stats": {
+        "frequency_counts": {
+            "hourly": 1
+        },
+        "enabled_count": 1,
+        "total_count": 1
+    }
+}

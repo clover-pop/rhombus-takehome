@@ -32,3 +32,10 @@ Continued all tests in manual mode (pressing Run) and documented this as a devia
 ## Open questions
 - Is a schedule on this account type or project supposed to run? (Docs do not mention restrictions.)
 - Not tried: very short interval (*/5) diagnostic, changing the pipeline after creating the schedule.
+
+## Backend evidence (schedules API)
+Captured from the browser's network tab on 4 Oct, about 26 hours after the schedule was created:
+- created_at 2026-10-02T11:39:51Z, enabled true, frequency hourly, cron 45 * * * *
+- next_run_at 2026-10-02T11:45:00Z (about 26 hours in the past), last_run_at null, skipped_runs_count 0
+So the backend has never recorded a run for this schedule, its next-run time was never advanced, and no runs were skipped. This also fits the blank "Next run" shown on the dashboard card (my inference). The response has no timezone field, only schedule_time_utc.
+Full response in evidence/api-schedules-response.json. The test api-tests/test_schedules_api.py encodes the expectation (marked xfail).
