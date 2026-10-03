@@ -26,5 +26,5 @@ Medium. The pipeline stopped and wrote nothing, so no bad data reached GCS, whic
 
 ## Evidence
 - evidence/type-change-dashboard-failure.png
-- evidence/type_change-logs.png
+- evidence/type-change-logs.png
 - evidence/type-change-error.txt

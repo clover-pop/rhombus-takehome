@@ -26,4 +26,4 @@ Low for the drift handling: the pipeline stopped and wrote nothing, so no bad da
 ## Evidence
 - evidence/drop-column-logs.png
 - evidence/drop-column-error.txt
-- evidence/drop-column-dashboard failure
+- evidence/drop-column-dashboard-failure.png

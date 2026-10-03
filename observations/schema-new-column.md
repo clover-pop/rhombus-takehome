@@ -30,5 +30,5 @@ Medium. Nothing failed, so nobody is alerted, but a column that was never part o
 
 ## Evidence
 - evidence/new-column-logs.png
-- evidence/new-column-transformations.json
+- evidence/new-column-success.txt
 - datasets/outputs/drift_new_column.csv
