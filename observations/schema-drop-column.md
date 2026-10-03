@@ -18,7 +18,9 @@ The error reads: Pipeline failed at orders_valid_email, LLM execution failed, Co
 [to fill in once I test it]
 
 ## Did the fix work?
-[to fill in]
+No. After the chatbot edited orders_trimmed, I put the dropped column file back in S3 and ran again (started 10:25:27 PM, failed 10:25:32 PM). It failed at the same node, orders_valid_email, with the same message (Column 'email' does not exist in input_df_1) and the same code_sha (5f40b5e32988), so the email node was unchanged. The chatbot's prediction that the error would be gone was wrong. No output reached GCS. (evidence/chatbot-drop-column-rerun-logs.png)
+
+Side effects: I then ran the normal baseline file through the edited pipeline. It produced 122 rows, all 23 validator checks passed, and the content was identical to baseline_run1 (evidence/chatbot-drop-column-baseline-check.txt). The edit did not break normal behaviour, but it did nothing for the problem and left a permanent change in the pipeline. After the edit, the failure log's nodeRef is a long hash instead of matching the node id as in earlier logs; I did not investigate why.
 
 ## Severity
 Low for the drift handling: the pipeline stopped and wrote nothing, so no bad data reached GCS. The contradictory "completed successfully" line is a minor clarity issue.

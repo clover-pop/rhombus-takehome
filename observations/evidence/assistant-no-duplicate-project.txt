@@ -1,0 +1,19 @@
+The question I asked: Can I duplicate this project or see version history?
+
+Rhombus' response: 
+Based on the product documentation, neither **project duplication** nor **pipeline version history** are currently available as built-in features in Rhombus.
+
+Here's what you can do as practical alternatives:
+
+**Instead of duplicating a project:**
+
+- You can manually recreate the pipeline in a new project — since we just built this one, you have a clear record of every node and rule. I can re-run the same pipeline build in a new project if you need a separate copy.
+
+**Instead of version history:**
+
+- The pipeline is deterministic: if you re-run it against the same source, you'll get the same result. The source file (`baseline.csv`) is stored in S3, so the input is stable.
+
+- If you want a point-in-time snapshot of the cleaned output, the `orders_cleaned_final` output node already saves a copy — that acts as a versioned artifact you can reference later.
+
+If project duplication or version history are features you'd like to see, that would be worth flagging to the Rhombus team as a product request. Is there something specific you're trying to protect against (e.g., experimenting with a variation of the pipeline)? I can suggest the best workaround for your goal.
+

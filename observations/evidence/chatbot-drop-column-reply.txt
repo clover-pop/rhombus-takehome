@@ -1,0 +1,11 @@
+The fix compiled and is live on the canvas. Here's what was wrong and what changed:
+
+**Root cause:** The `orders_trimmed` node was stripping whitespace from *cell values* but not from *column names*. If the source CSV has a header like `" email"` (space before the name), the column arrives at every downstream node as `" email"` rather than `"email"`, causing the exact `Column 'email' does not exist` error.
+
+**Fix applied:** A single line was added to `orders_trimmed` that runs *before* the cell-value stripping:
+
+```python
+target_df.columns = target_df.columns.str.strip()
+```
+
+This ensures all column names are cleaned of whitespace first, so `"email"`, `"amount_usd"`, `"quantity"` and all other columns are reliably accessible by their exact names in every downstream node. Re-run the pipeline and the error should be gone.
