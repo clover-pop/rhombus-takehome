@@ -4,3 +4,4 @@
 {"case": "drift_drop_column", "dataset": "datasets/drift_drop_column.csv", "status": "no_output", "outputs": [], "uploaded_at": "2026-10-03T00:34:23.926621+00:00"}
 {"case": "drift_rename_column", "dataset": "datasets/drift_rename_column.csv", "status": "no_output", "outputs": [], "uploaded_at": "2026-10-03T01:13:26.496071+00:00"}
 {"case": "drift_type_change", "dataset": "datasets/drift_type_change.csv", "status": "no_output", "outputs": [], "uploaded_at": "2026-10-03T02:46:57.630773+00:00"}
+{"case": "drift_new_column", "dataset": "datasets/drift_new_column.csv", "status": "output_found", "outputs": [{"blob": "RhombusAI_output_1791000028060.csv", "created": "2026-10-03T04:00:29.972000+00:00", "saved_as": "drift_new_column.csv", "seconds_after_upload": 11.6}], "uploaded_at": "2026-10-03T04:00:18.412074+00:00"}

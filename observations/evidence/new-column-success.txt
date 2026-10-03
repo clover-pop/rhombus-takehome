@@ -1,0 +1,149 @@
+Applied 8 transformations: Custom: code: "# Work with the input dataframe target_df = input_df_1.copy() # Identify str..." · mode: "code". Impact: 160 row(s) affected, 800 cell(s) modified | Text Case: columns: [customer_name] · text_case: "title". Impact: 12 cell(s) modified | Custom: code: "# Define the mapping for country standardization (case-insensitive) country_m..." · mode: "code". Impact: 71 row(s) affected, 71 cell(s) modified | +5 more.
+
+{
+  "kind": "selected_transformations",
+  "status": "success",
+  "selected_transformations": [
+    "Custom",
+    "Text Case",
+    "Remove Duplicates"
+  ],
+  "selected_steps": [
+    {
+      "type": "llm",
+      "title": "Custom",
+      "message": "Custom: code: \"# Work with the input dataframe\ntarget_df = input_df_1.copy()\n\n# Identify str...\" · mode: \"code\". Impact: 160 row(s) affected, 800 cell(s) modified.",
+      "params": {
+        "code": "# Work with the input dataframe\ntarget_df = input_df_1.copy()\n\n# Identify string/object columns and strip whitespace\nfor col in target_df.columns:\n    if target_df[col].dtype == 'object':\n        # Strip leading/trailing whitespace from text columns\n        target_df[col] = target_df[col].str.strip()\n\noutput_df = target_df\n\n# Create output mask: mark all cells in object columns as modified (True)\n# Start with all False\noutput_mask = pd.DataFrame(False, index=output_df.index, columns=output_df.columns)\n\n# Mark object columns as True (these were the ones stripped)\nfor col in output_df.columns:\n    if output_df[col].dtype == 'object':\n        output_mask[col] = True",
+        "mode": "code"
+      },
+      "metrics": {
+        "modified_cell_count": 800,
+        "affected_row_count": 160,
+        "output_row_count": 160,
+        "records_processed": 160,
+        "output_column_count": 10
+      }
+    },
+    {
+      "type": "text_case_convert",
+      "title": "Text Case",
+      "message": "Text Case: columns: [customer_name] · text_case: \"title\". Impact: 12 cell(s) modified.",
+      "params": {
+        "columns": [
+          "customer_name"
+        ],
+        "text_case": "title"
+      },
+      "metrics": {
+        "modified_cell_count": 12
+      }
+    },
+    {
+      "type": "llm",
+      "title": "Custom",
+      "message": "Custom: code: \"# Define the mapping for country standardization (case-insensitive)\ncountry_m...\" · mode: \"code\". Impact: 71 row(s) affected, 71 cell(s) modified.",
+      "params": {
+        "code": "# Define the mapping for country standardization (case-insensitive)\ncountry_mapping = {\n    'AUS': 'Australia',\n    'USA': 'United States',\n    'INDIA': 'India',\n    'U.K.': 'United Kingdom',\n    'CANADA': 'Canada'\n}\n\n# Create output dataframe as a copy of input\noutput_df = input_df_1.copy()\n\n# Validate that 'country' column exists\nif 'country' not in output_df.columns:\n    raise ValueError(\"Column 'country' does not exist in input_df_1!\")\n\n# Standardize the country column:\n# 1. Strip whitespace and convert to uppercase for matching\n# 2. Apply case-insensitive mapping using .str.strip() and .str.upper()\n# 3. Map using the dictionary, leaving unmapped values unchanged\n\ndef map_country(value):\n    if pd.isna(value):\n        return value\n    normalized = str(value).strip().upper()\n    return country_mapping.get(normalized, value)\n\noutput_df['country'] = output_df['country'].apply(map_country)\n\n# Create output mask: mark cells in the country column that were modified\noutput_mask = input_mask_1.copy()\n\n# For the country column, mark as True (modified) where the value was mapped\ntemp_original = input_df_1['country'].str.strip().str.upper()\noutput_mask['country'] = temp_original.isin(country_mapping.keys())\n\n# Reindex mask to match output_df\noutput_mask = output_mask.reindex(index=output_df.index, columns=output_df.columns, fill_value=False).astype(bool)",
+        "mode": "code"
+      },
+      "metrics": {
+        "modified_cell_count": 71,
+        "affected_row_count": 71,
+        "output_row_count": 160,
+        "records_processed": 160,
+        "output_column_count": 10
+      }
+    },
+    {
+      "type": "llm",
+      "title": "Custom",
+      "message": "Custom: code: \"from datetime import datetime\n\n# Validate that signup_date exists in the inpu...\" · mode: \"code\". Impact: 160 row(s) affected, 160 cell(s) modified.",
+      "params": {
+        "code": "from datetime import datetime\n\n# Validate that signup_date exists in the input dataframe\nif 'signup_date' not in input_df_1.columns:\n    raise ValueError(\"Column 'signup_date' does not exist in input_df_1!\")\n\n# Create a working copy\noutput_df = input_df_1.copy()\n\n# Function to parse signup_date in multiple formats and convert to YYYY-MM-DD string\ndef parse_and_format_date(value):\n    \"\"\"\n    Parse dates in three formats: YYYY-MM-DD, DD Mon YYYY, YYYY/MM/DD\n    Return as YYYY-MM-DD string, or NaN if parsing fails.\n    \"\"\"\n    if pd.isna(value):\n        return np.nan\n    \n    # If already a Timestamp/datetime object, convert directly\n    if isinstance(value, (pd.Timestamp, datetime)):\n        return value.strftime('%Y-%m-%d')\n    \n    # Convert to string for processing\n    value_str = str(value).strip()\n    \n    # Try parsing with different formats\n    formats = ['%Y-%m-%d', '%d %b %Y', '%Y/%m/%d']\n    \n    for fmt in formats:\n        try:\n            parsed_date = pd.to_datetime(value_str, format=fmt)\n            return parsed_date.strftime('%Y-%m-%d')\n        except (ValueError, TypeError):\n            continue\n    \n    # If no format matched, return NaN\n    return np.nan\n\n# Apply the conversion function to signup_date\noutput_df['signup_date'] = output_df['signup_date'].apply(parse_and_format_date)\n\n# Create the output mask: mark signup_date column as modified (True), all others as False\noutput_mask = input_mask_1.reindex(index=output_df.index, columns=output_df.columns, fill_value=False).astype(bool)\noutput_mask['signup_date'] = True",
+        "mode": "code"
+      },
+      "metrics": {
+        "modified_cell_count": 160,
+        "affected_row_count": 160,
+        "output_row_count": 160,
+        "records_processed": 160,
+        "output_column_count": 10
+      }
+    },
+    {
+      "type": "llm",
+      "title": "Custom",
+      "message": "Custom: code: \"import re\n\n# Validate email column exists\nif 'email' not in input_df_1.column...\" · mode: \"code\". Impact: 14 row(s) affected.",
+      "params": {
+        "code": "import re\n\n# Validate email column exists\nif 'email' not in input_df_1.columns:\n    raise ValueError(\"Column 'email' does not exist in input_df_1!\")\n\n# Define email validation pattern\n# Valid email: non-empty local part, exactly one '@', domain with at least one dot\nemail_pattern = r'^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$'\n\ndef is_valid_email(email):\n    \"\"\"\n    Check if email is valid:\n    - Not null/NaN\n    - Not empty string\n    - Matches pattern: non-empty local part, exactly one '@', domain with at least one dot\n    \"\"\"\n    if pd.isna(email):\n        return False\n    if not isinstance(email, str):\n        return False\n    email = email.strip()\n    if not email:\n        return False\n    return bool(re.match(email_pattern, email))\n\n# Create boolean mask for valid emails\nvalid_email_mask = input_df_1['email'].apply(is_valid_email)\n\n# Filter to keep only rows with valid emails\noutput_df = input_df_1[valid_email_mask].copy()\n\n# Create output mask: mark all cells as False (no new modifications)\n# Start from input mask and reindex to output_df shape\noutput_mask = input_mask_1.reindex(index=output_df.index, columns=output_df.columns, fill_value=False).astype(bool)",
+        "mode": "code"
+      },
+      "metrics": {
+        "modified_cell_count": 0,
+        "affected_row_count": 14,
+        "output_row_count": 146,
+        "records_processed": 146,
+        "output_column_count": 10
+      }
+    },
+    {
+      "type": "llm",
+      "title": "Custom",
+      "message": "Custom: code: \"# Start with the input dataframe\noutput_df = input_df_1.copy()\n\n# Function to...\" · mode: \"code\". Impact: 136 row(s) affected, 136 cell(s) modified.",
+      "params": {
+        "code": "# Start with the input dataframe\noutput_df = input_df_1.copy()\n\n# Function to check if a value can be converted to numeric\ndef is_valid_numeric(val):\n    \"\"\"Check if a value is not null, not NaN, not empty string, and can convert to numeric.\"\"\"\n    if pd.isna(val):\n        return False\n    if isinstance(val, str):\n        if val.strip() == '':\n            return False\n        try:\n            float(val)\n            return True\n        except (ValueError, TypeError):\n            return False\n    # For other types (int, float, etc.), check if numeric and not NaN\n    try:\n        float(val)\n        return not pd.isna(float(val))\n    except (ValueError, TypeError):\n        return False\n\n# Create a mask for valid rows\nvalid_rows = output_df['amount_usd'].apply(is_valid_numeric)\n\n# Filter to keep only valid rows\noutput_df = output_df[valid_rows].copy()\n\n# Convert amount_usd to float and round to 2 decimal places\noutput_df['amount_usd'] = output_df['amount_usd'].astype(float).round(2)\n\n# Create output mask\noutput_mask = input_mask_1.reindex(index=output_df.index, columns=output_df.columns, fill_value=False).astype(bool)\n\n# Mark amount_usd column as modified for all remaining rows\noutput_mask.loc[:, 'amount_usd'] = True",
+        "mode": "code"
+      },
+      "metrics": {
+        "modified_cell_count": 136,
+        "affected_row_count": 136,
+        "output_row_count": 136,
+        "records_processed": 136,
+        "output_column_count": 10
+      }
+    },
+    {
+      "type": "llm",
+      "title": "Custom",
+      "message": "Custom: code: \"# Filter out rows where quantity is less than 1\noutput_df = input_df_1[input_...\" · mode: \"code\". Impact: 4 row(s) affected.",
+      "params": {
+        "code": "# Filter out rows where quantity is less than 1\noutput_df = input_df_1[input_df_1['quantity'] >= 1].copy()\n\n# Create output mask: True for rows that were kept (quantity >= 1), False otherwise\n# Since we're removing rows, the output_mask aligns only to the kept rows\noutput_mask = pd.DataFrame(\n    False,\n    index=output_df.index,\n    columns=output_df.columns\n)",
+        "mode": "code"
+      },
+      "metrics": {
+        "modified_cell_count": 0,
+        "affected_row_count": 4,
+        "output_row_count": 132,
+        "records_processed": 132,
+        "output_column_count": 10
+      }
+    },
+    {
+      "type": "remove_duplicate",
+      "title": "Remove Duplicates",
+      "message": "Remove Duplicates: columns: [order_id, customer_name, email, signup_date, order_date, country, +3 more]. Impact: 10 row(s) affected, 100 cell(s) modified.",
+      "params": {
+        "columns": [
+          "order_id",
+          "customer_name",
+          "email",
+          "signup_date",
+          "order_date",
+          "country",
+          "amount_usd",
+          "quantity",
+          "status"
+        ]
+      },
+      "metrics": {
+        "modified_cell_count": 100,
+        "affected_row_count": 10
+      }
+    }
+  ],
+  "outcome": {
+    "modified_cell_count": 1279,
+    "affected_row_count": 555
+  }
+}

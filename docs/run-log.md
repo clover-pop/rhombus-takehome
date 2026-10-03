@@ -12,4 +12,6 @@
 | #16429 | baseline_run3 | manual (harness) | 2 Oct 22:28:06 | 6.5s | success | 122 | | identical to run1 |
 
 Scheduled runs: none ever appeared in the execution history (see observations/schedule-not-triggering.md).
-| #16479 | drift_type_change | manual (harness) | 3 Oct 12:47:03 | 4.8s | failure | none | | failed at orders_valid_amount; error is a NameError for TypeError in generated code |
+| #16479 | drift_type_change | manual (harness) | 3 Oct 12:47:03 | 4.8s | failure | none | | failed at orders_valid_amount; error is a NameError for TypeError in generated code || #? | accidental baseline run | manual | 3 Oct 13:58:27 | | success | | | pressed Run by mistake while the baseline was in S3; output deleted from GCS |
+| #16491 | accidental baseline run | manual | 3 Oct 13:58:44 | | success | | | same; output deleted from GCS |
+| #16492 | drift_new_column | manual (harness) | 3 Oct 14:00:22 | ~8s | success | 122 | | extra column loyalty_tier passed through to GCS |
