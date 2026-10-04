@@ -19,7 +19,6 @@ def project_page(page):
 
 @pytest.fixture
 def wide_project_page(page):
-    # React Flow only renders nodes inside the viewport. A 3400px window fits the whole 10-node pipeline.
     page.set_viewport_size({"width": 3400, "height": 1000})
     dismiss_ad_blocker_modal(page)
     open_project(page)
@@ -29,5 +28,12 @@ def wide_project_page(page):
 @pytest.fixture
 def dashboard_page(page):
     dismiss_ad_blocker_modal(page)
-    open_dashboard(page)
+    open_dashboard(page, "Executions")
+    return page
+
+
+@pytest.fixture
+def overview_page(page):
+    dismiss_ad_blocker_modal(page)
+    open_dashboard(page, "Overview")
     return page

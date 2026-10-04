@@ -5,3 +5,6 @@
 - The Create Schedule dialog (checked with the default Daily frequency) shows Frequency, Time and Notify on failure, but no timezone field, although the scheduling guide describes a read-only timezone field.
 - The canvas has no zoom controls or minimap, and only the nodes in view are rendered, so a 10-node pipeline cannot be seen in one view at a normal window size. I did not test keyboard shortcuts.
 - The right sidebar keeps the AI Builder chat in the page while the Schedule tab is open, and schedule frequency is stored as lowercase text and capitalised by styling.
+- The dashboard summary cards briefly show 0 executions and a 0% success rate while the page loads, instead of a loading placeholder (seen in text captured by an automated read during loading).
+- The execution list formats durations differently by length (4.1s, 1m 3s), which complicates anything that reads it automatically.
+- Execution #16557 (3 Oct, 10:06:48 PM) is recorded as Success with duration 0.0s and no nodes. The Logs panel shows that run starting and finishing in the same second with no "Applied transformations" entry, so it executed nothing yet counts as a success. I do not know what triggered it.

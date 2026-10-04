@@ -1,0 +1,31 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/aadyasharma/Desktop/rhombus-takehome/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /
+plugins: base-url-2.1.0, playwright-0.7.1
+collecting ... collected 19 items
+
+ui-tests/test_dashboard_ui.py::test_executions_table_has_the_expected_columns[chromium] PASSED [  5%]
+ui-tests/test_dashboard_ui.py::test_every_execution_row_is_well_formed_and_newest_first[chromium] PASSED [ 10%]
+ui-tests/test_dashboard_ui.py::test_summary_cards_add_up[chromium] PASSED [ 15%]
+ui-tests/test_dashboard_ui.py::test_table_total_matches_the_executions_card[chromium] PASSED [ 21%]
+ui-tests/test_dashboard_ui.py::test_schedule_cards_match_the_backend[chromium] PASSED [ 26%]
+ui-tests/test_dashboard_ui.py::test_at_least_one_execution_was_triggered_by_the_schedule[chromium] XFAIL [ 31%]
+ui-tests/test_pipeline_structure.py::test_pipeline_has_ten_nodes_with_the_expected_ids[chromium] PASSED [ 36%]
+ui-tests/test_pipeline_structure.py::test_nodes_carry_the_expected_labels[chromium] PASSED [ 42%]
+ui-tests/test_pipeline_structure.py::test_nodes_are_connected_in_order_from_input_to_output[chromium] PASSED [ 47%]
+ui-tests/test_project_page.py::test_project_opens_with_the_expected_tabs[chromium] PASSED [ 52%]
+ui-tests/test_project_page.py::test_canvas_renders_pipeline_nodes_and_edges[chromium] PASSED [ 57%]
+ui-tests/test_run_pipeline.py::test_run_button_produces_a_valid_output_in_gcs[chromium] PASSED [ 63%]
+ui-tests/test_schedule_ui.py::test_schedule_tab_shows_an_active_schedule[chromium] PASSED [ 68%]
+ui-tests/test_schedule_ui.py::test_ui_schedule_matches_the_backend[chromium] PASSED [ 73%]
+ui-tests/test_schedule_ui.py::test_add_schedule_dialog_can_be_cancelled_without_creating_anything[chromium] PASSED [ 78%]
+ui-tests/test_schedule_ui.py::test_schedule_card_shows_a_next_run_time[chromium] XFAIL [ 84%]
+ui-tests/test_source_and_destination.py::test_data_input_panel_shows_the_dataset_and_upload_options[chromium] PASSED [ 89%]
+ui-tests/test_source_and_destination.py::test_s3_source_is_connected_and_points_at_my_bucket[chromium] PASSED [ 94%]
+ui-tests/test_source_and_destination.py::test_data_output_panel_points_at_my_gcs_bucket[chromium] PASSED [100%]
+
+=========================== short test summary info ============================
+XFAIL ui-tests/test_dashboard_ui.py::test_at_least_one_execution_was_triggered_by_the_schedule[chromium] - Known issue: scheduled runs never fire, so no execution has a trigger other than Manual (see observations/schedule-not-triggering.md)
+XFAIL ui-tests/test_schedule_ui.py::test_schedule_card_shows_a_next_run_time[chromium] - Known issue: the schedule card shows no next run time (see observations/schedule-not-triggering.md)
+=================== 17 passed, 2 xfailed in 90.49s (0:01:30) ===================
