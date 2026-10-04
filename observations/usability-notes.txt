@@ -7,4 +7,9 @@
 - The right sidebar keeps the AI Builder chat in the page while the Schedule tab is open, and schedule frequency is stored as lowercase text and capitalised by styling.
 - The dashboard summary cards briefly show 0 executions and a 0% success rate while the page loads, instead of a loading placeholder (seen in text captured by an automated read during loading).
 - The execution list formats durations differently by length (4.1s, 1m 3s), which complicates anything that reads it automatically.
-- Execution #16557 (3 Oct, 10:06:48 PM) is recorded as Success with duration 0.0s and no nodes. The Logs panel shows that run starting and finishing in the same second with no "Applied transformations" entry, so it executed nothing yet counts as a success. I do not know what triggered it.
+- Execution #16557 (3 Oct, 10:06:48 PM) is recorded as Success with duration 0.0s and no nodes. The Logs panel shows that run starting and finishing in the same second with no "Applied transformations" entry, so it executed nothing yet counts as a success. I do not know what triggered it. A second run with the same shape, #16491 (3 Oct, 1:58:27 PM) is one I started by accident with the play button.
+- After adding credits with the voucher, the AI Builder counter shows "5,003/50", which reads as if I were over my allocation.
+- The AI Builder empty state says "Ask Rhombo" (the same spelling slip as the S3 connection screen), not Rhombus.
+- The S3 connection form first shows "Checking the managed-compute environment..." for a few seconds before the fields appear, with no progress indicator.
+
+- Execution #16557 (3 Oct, 10:06:48 PM, success, 0.0s, no nodes) happened within seconds of the chatbot applying its edit to the pipeline, so applying an edit seems to start an empty run that is recorded as a success. This is inferred from timing only.
