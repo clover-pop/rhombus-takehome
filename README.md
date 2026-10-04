@@ -28,7 +28,7 @@ The tests run against my own Rhombus account and project. To run them on another
 2. `python ui-tests/save_login_cdp.py` saves the session to `secrets/auth_state.json` (git-ignored).
 3. `python -m pytest ui-tests -v -rx`. One test presses Run and takes about a minute; it requires the baseline file to be in S3.
 
-No test uses a fixed sleep: they use Playwright's auto-waiting assertions, a handler for the "Ad Blocker Detected" modal, and bounded polling of GCS and the dashboard. The `discover_*.py` scripts in `ui-tests/` are read-only helpers I used to find page elements.
+No test uses a fixed sleep: they use Playwright's auto-waiting assertions, a handler for the "Ad Blocker Detected" modal, and bounded polling of GCS and the dashboard. `ui-tests/export_executions.py` reads the dashboard's execution table into `datasets/rhombus_executions.csv`.
 
 **Data validation** (`/data-validation/`):
 ```bash
@@ -77,8 +77,8 @@ TODO-REPLACE: add the link here.
 ## 5. Limitations and trade-offs
 
 - **Manual runs only.** The schedule never produced a run (finding 2), so I triggered every run with the play button. The execution history shows only manual triggers.
-- **Chatbot fixes:** I tested the fix for one of the four failed cases (dropped column). For the others I recorded its diagnosis only, because applying fixes would change the pipeline under test. Each diagnosis was requested with a cleared chat history; where noted, the first attempt was made with history left in.
+- **Chatbot fixes:** I tested the fix for one of the four failed cases (dropped column). For the others I recorded its diagnosis only, because applying fixes would change the pipeline under test. I cleared the AI Builder chat history before the second renamed-column attempt and before the combined-case question; each observation file says what conditions applied to that question.
 - **Fixture design:** the baseline is generated, with a file of exactly which rows have which defect, so validation compares against ground truth.
-- **Tests are read-only** apart from the Run test and (where marked) cancelled dialogs. I did not probe other accounts' resources.
+- **Tests change very little.** The Run test starts one pipeline run and writes one output file. The S3 empty-bucket test submits the form with no bucket and asserts that no source is created. The dialog tests are cancelled without saving, and no test deletes anything. I did not probe other accounts' resources.
 - The UI tests check every stage of the journey on the pipeline I built with the AI builder (S3 source connected to my bucket, the 10-node AI-built pipeline, the GCS destination, the schedule, and a full Run whose output is validated), but they do not rebuild the pipeline from scratch. The build itself was done once, manually, by typing the prompt recorded in docs/pipeline-prompt.md into the AI builder.
 - The optional bonus dashboard is not included.
