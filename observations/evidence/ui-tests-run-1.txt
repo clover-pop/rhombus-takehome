@@ -1,0 +1,76 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/aadyasharma/Desktop/rhombus-takehome/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/aadyasharma/Desktop/rhombus-takehome
+plugins: base-url-2.1.0, playwright-0.7.1
+collecting ... collected 5 items
+
+ui-tests/test_project_page.py::test_project_opens_with_the_expected_tabs[chromium] PASSED [ 20%]
+ui-tests/test_project_page.py::test_canvas_renders_pipeline_nodes_and_edges[chromium] PASSED [ 40%]
+ui-tests/test_schedule_ui.py::test_schedule_tab_shows_an_active_schedule[chromium] PASSED [ 60%]
+ui-tests/test_schedule_ui.py::test_ui_schedule_matches_the_backend[chromium] FAILED [ 80%]
+ui-tests/test_schedule_ui.py::test_schedule_card_shows_a_next_run_time[chromium] XFAIL [100%]
+
+=================================== FAILURES ===================================
+________________ test_ui_schedule_matches_the_backend[chromium] ________________
+
+project_page = <Page url='https://rhombusai.com/workflow/5009'>
+
+    def test_ui_schedule_matches_the_backend(project_page):
+        schedule = backend_schedule()
+        sidebar = open_schedule_tab(project_page)
+        expect(sidebar).to_contain_text(schedule["name"])
+        if schedule["frequency"] == "hourly":
+            minute = int(schedule["cron_expression"].split()[0])
+>           expect(sidebar).to_contain_text("Hourly")
+E           AssertionError: Locator expected to contain text 'Hourly'
+E           Actual value: Please explain what went wrong with this error. Do not change the pipeline:
+E           Pipeline failed at orders_country_std: LLM execution failed (code_sha=b1bde1b05f09): Column 'country' does not exist in input_df_1!
+E           --- Generated code ---
+E           import pandas as pd
+E           import numpy as np
+E           def _safe_to_timedelta_wrapper(arg, *args, **kwargs):
+E           try:
+E           arg_series = pd.Series(arg)
+E           e…Pipeline ErrorCopy messageHere's what went wrong:Root Cause: Column Name Mismatch After orders_trimmedThe error is a column name casing issue introduced by the orders_trimmed node. Here's the chain of events:What orders_trimmed doesThat node strips whitespace from column names:pythonCopytarget_df.columns = target_df.columns.str.strip()
+E           This strips leading/trailing spaces, but it does not change the case of column names. So if the raw source (orders_raw) has the column named Country (capital C),  country  (with spaces), or any variation, after stripping it might still come through as Country — not country.What orders_title_case does nextThe orders_title_case node applies title case to the customer_name column specifically. It does not touch column names. However — and this is the key — text_case_convert may apply title casing to column headers as a side effect depending on its implementation, or the source data itself has a column header like Country that was already in title case.What orders_country_std expectsThe code in this node explicitly checks:pythonCopyif 'country' not in output_df.columns:
+E               raise ValueError("Column 'country' does not exist in input_df_1!")
+E           It expects the column name in all lowercase: country. If the column is actually named Country (title case) — which is plausible given that orders_title_case ran just before and the raw data likely has Country as a header — this exact check fails and raises the error you saw.Most likely scenarioThe source CSV (baseline.csv) has a column header Country (capital C). The orders_trimmed strip only removes spaces, leaving it as Country. Then orders_title_case (title case transformer) either preserves or reinforces Country. When orders_country_std looks for country (lowercase), it doesn't find it and throws the error.In short: The orders_country_std node's code assumes the column is lowercase country, but the actual column coming through the pipeline is likely Country (title-cased). The fix would be to either normalize column names to lowercase in orders_trimmed, or update orders_country_std to do a case-insensitive column lookup — but you've asked me not to change the pipeline, so this is purely the explanation.Worked for 17sSearchingfor a toolReviewedpipelineCopy messageSchedulesManage schedules within this projectAdd ScheduleSchedule for rhombus-takehomeActivehourlyAt minute 45Next run:  
+E           Call log:
+E             - Expect "to_contain_text" with timeout 5000ms
+E             - waiting for get_by_test_id("right-sidebar")
+E               8 × locator resolved to <aside data-testid="right-sidebar" class="workflow-right-sidebar z-20 h-full w-full flex flex-col shadow-none transform transition-transform duration-200 ease-in-out">…</aside>
+E                 - unexpected value "Please explain what went wrong with this error. Do not change the pipeline:
+E           Pipeline failed at orders_country_std: LLM execution failed (code_sha=b1bde1b05f09): Column 'country' does not exist in input_df_1!
+E           --- Generated code ---
+E           import pandas as pd
+E           import numpy as np
+E           def _safe_to_timedelta_wrapper(arg, *args, **kwargs):
+E           try:
+E           arg_series = pd.Series(arg)
+E           e…Pipeline ErrorCopy messageHere's what went wrong:Root Cause: Column Name Mismatch After orders_trimmedThe error is a column name casing issue introduced by the orders_trimmed node. Here's the chain of events:What orders_trimmed doesThat node strips whitespace from column names:pythonCopytarget_df.columns = target_df.columns.str.strip()
+E           This strips leading/trailing spaces, but it does not change the case of column names. So if the raw source (orders_raw) has the column named Country (capital C),  country  (with spaces), or any variation, after stripping it might still come through as Country — not country.What orders_title_case does nextThe orders_title_case node applies title case to the customer_name column specifically. It does not touch column names. However — and this is the key — text_case_convert may apply title casing to column headers as a side effect depending on its implementation, or the source data itself has a column header like Country that was already in title case.What orders_country_std expectsThe code in this node explicitly checks:pythonCopyif 'country' not in output_df.columns:
+E               raise ValueError("Column 'country' does not exist in input_df_1!")
+E           It expects the column name in all lowercase: country. If the column is actually named Country (title case) — which is plausible given that orders_title_case ran just before and the raw data likely has Country as a header — this exact check fails and raises the error you saw.Most likely scenarioThe source CSV (baseline.csv) has a column header Country (capital C). The orders_trimmed strip only removes spaces, leaving it as Country. Then orders_title_case (title case transformer) either preserves or reinforces Country. When orders_country_std looks for country (lowercase), it doesn't find it and throws the error.In short: The orders_country_std node's code assumes the column is lowercase country, but the actual column coming through the pipeline is likely Country (title-cased). The fix would be to either normalize column names to lowercase in orders_trimmed, or update orders_country_std to do a case-insensitive column lookup — but you've asked me not to change the pipeline, so this is purely the explanation.Worked for 17sSearchingfor a toolReviewedpipelineCopy messageSchedulesManage schedules within this projectAdd ScheduleSchedule for rhombus-takehomeActivehourlyAt minute 45Next run: "
+E               - found get_by_role("button", name=re.compile(r"continue anyway", re.IGNORECASE)), intercepting action to run the handler
+E               - locator handler has finished, waiting for get_by_role("button", name=re.compile(r"continue anyway", re.IGNORECASE)) to be hidden
+E               4 × locator resolved to visible <button class="workflow-focus-visible-glow inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 workflow-outline-glass-button h-10 px-4 py-2 modal-secondary-action-button flex-1">Continue Anyway</button>
+E               - interception handler has finished, continuing
+E               5 × locator resolved to <aside data-testid="right-sidebar" class="workflow-right-sidebar z-20 h-full w-full flex flex-col shadow-none transform transition-transform duration-200 ease-in-out">…</aside>
+E                 - unexpected value "Please explain what went wrong with this error. Do not change the pipeline:
+E           Pipeline failed at orders_country_std: LLM execution failed (code_sha=b1bde1b05f09): Column 'country' does not exist in input_df_1!
+E           --- Generated code ---
+E           import pandas as pd
+E           import numpy as np
+E           def _safe_to_timedelta_wrapper(arg, *args, **kwargs):
+E           try:
+E           arg_series = pd.Series(arg)
+E           e…Pipeline ErrorCopy messageHere's what went wrong:Root Cause: Column Name Mismatch After orders_trimmedThe error is a column name casing issue introduced by the orders_trimmed node. Here's the chain of events:What orders_trimmed doesThat node strips whitespace from column names:pythonCopytarget_df.columns = target_df.columns.str.strip()
+E           This strips leading/trailing spaces, but it does not change the case of column names. So if the raw source (orders_raw) has the column named Country (capital C),  country  (with spaces), or any variation, after stripping it might still come through as Country — not country.What orders_title_case does nextThe orders_title_case node applies title case to the customer_name column specifically. It does not touch column names. However — and this is the key — text_case_convert may apply title casing to column headers as a side effect depending on its implementation, or the source data itself has a column header like Country that was already in title case.What orders_country_std expectsThe code in this node explicitly checks:pythonCopyif 'country' not in output_df.columns:
+E               raise ValueError("Column 'country' does not exist in input_df_1!")
+E           It expects the column name in all lowercase: country. If the column is actually named Country (title case) — which is plausible given that orders_title_case ran just before and the raw data likely has Country as a header — this exact check fails and raises the error you saw.Most likely scenarioThe source CSV (baseline.csv) has a column header Country (capital C). The orders_trimmed strip only removes spaces, leaving it as Country. Then orders_title_case (title case transformer) either preserves or reinforces Country. When orders_country_std looks for country (lowercase), it doesn't find it and throws the error.In short: The orders_country_std node's code assumes the column is lowercase country, but the actual column coming through the pipeline is likely Country (title-cased). The fix would be to either normalize column names to lowercase in orders_trimmed, or update orders_country_std to do a case-insensitive column lookup — but you've asked me not to change the pipeline, so this is purely the explanation.Worked for 17sSearchingfor a toolReviewedpipelineCopy messageSchedulesManage schedules within this projectAdd ScheduleSchedule for rhombus-takehomeActivehourlyAt minute 45Next run: "
+
+ui-tests/test_schedule_ui.py:46: AssertionError
+=========================== short test summary info ============================
+XFAIL ui-tests/test_schedule_ui.py::test_schedule_card_shows_a_next_run_time[chromium] - Known issue: the schedule card shows no next run time (see observations/schedule-not-triggering.md)
+=================== 1 failed, 3 passed, 1 xfailed in 54.59s ====================

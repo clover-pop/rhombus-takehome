@@ -1,0 +1,17 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/aadyasharma/Desktop/rhombus-takehome/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /
+plugins: base-url-2.1.0, playwright-0.7.1
+collecting ... collected 6 items
+
+ui-tests/test_project_page.py::test_project_opens_with_the_expected_tabs[chromium] PASSED [ 16%]
+ui-tests/test_project_page.py::test_canvas_renders_pipeline_nodes_and_edges[chromium] PASSED [ 33%]
+ui-tests/test_schedule_ui.py::test_schedule_tab_shows_an_active_schedule[chromium] PASSED [ 50%]
+ui-tests/test_schedule_ui.py::test_ui_schedule_matches_the_backend[chromium] PASSED [ 66%]
+ui-tests/test_schedule_ui.py::test_add_schedule_dialog_can_be_cancelled_without_creating_anything[chromium] PASSED [ 83%]
+ui-tests/test_schedule_ui.py::test_schedule_card_shows_a_next_run_time[chromium] XFAIL [100%]
+
+=========================== short test summary info ============================
+XFAIL ui-tests/test_schedule_ui.py::test_schedule_card_shows_a_next_run_time[chromium] - Known issue: the schedule card shows no next run time (see observations/schedule-not-triggering.md)
+======================== 5 passed, 1 xfailed in 41.70s =========================
