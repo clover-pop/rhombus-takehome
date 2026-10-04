@@ -1,16 +1,6 @@
-import os
-import re
-from pathlib import Path
-
 import pytest
-from dotenv import load_dotenv
-from playwright.sync_api import expect
 
-load_dotenv()
-
-STATE = Path("secrets/auth_state.json")
-PROJECT_ID = os.environ.get("RHOMBUS_PROJECT_ID", "5009")
-PROJECT_URL = "https://rhombusai.com/workflow/" + PROJECT_ID
+from ui_helpers import STATE, dismiss_ad_blocker_modal, open_dashboard, open_project
 
 
 @pytest.fixture(scope="session")
@@ -20,24 +10,24 @@ def browser_context_args(browser_context_args):
     return {**browser_context_args, "storage_state": str(STATE), "viewport": {"width": 1600, "height": 900}}
 
 
-def open_project(page):
-    # The 'Ad Blocker Detected' modal can appear at any moment. This handler clicks it away
-    # whenever it shows up, so no test needs a fixed sleep to wait for it.
-    page.add_locator_handler(
-        page.get_by_role("button", name=re.compile("continue anyway", re.I)),
-        lambda button: button.click(),
-    )
-    page.goto(PROJECT_URL)
-    if "/workflow/" not in page.url:
-        pytest.fail(
-            "The saved login session was rejected (landed on " + page.url.split("?")[0] + "). "
-            "Run ui-tests/save_login_cdp.py again.",
-            pytrace=False,
-        )
-    expect(page.get_by_role("tab", name="Canvas")).to_be_visible(timeout=30000)
+@pytest.fixture
+def project_page(page):
+    dismiss_ad_blocker_modal(page)
+    open_project(page)
+    return page
 
 
 @pytest.fixture
-def project_page(page):
+def wide_project_page(page):
+    # React Flow only renders nodes inside the viewport. A 3400px window fits the whole 10-node pipeline.
+    page.set_viewport_size({"width": 3400, "height": 1000})
+    dismiss_ad_blocker_modal(page)
     open_project(page)
+    return page
+
+
+@pytest.fixture
+def dashboard_page(page):
+    dismiss_ad_blocker_modal(page)
+    open_dashboard(page)
     return page

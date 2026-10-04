@@ -15,10 +15,10 @@ Scheduled runs: none ever appeared in the execution history (see observations/sc
 | #16479 | drift_type_change | manual (harness) | 3 Oct 12:47:03 | 4.8s | failure | none | | failed at orders_valid_amount; error is a NameError for TypeError in generated code || #? | accidental baseline run | manual | 3 Oct 13:58:27 | | success | | | pressed Run by mistake while the baseline was in S3; output deleted from GCS |
 | #16491 | accidental baseline run | manual | 3 Oct 13:58:44 | | success | | | same; output deleted from GCS |
 | #16492 | drift_new_column | manual (harness) | 3 Oct 14:00:22 | ~8s | success | 122 | | extra column loyalty_tier passed through to GCS |
-| #? | drift_combined_schema | manual (harness) | 3 Oct 18:17:04 | ~4s | failure | none | | failed at orders_country_std; only the first missing column reported |
-| #? | drift_semantic_cents | manual (harness) | 3 Oct 18:26:26 | ~8s | success | 122 | | amounts 100x too large, no warning from Rhombus; validator failed 2 checks |
-| #? | drift_semantic_dates_ddmm | manual (harness) | 3 Oct | ~8s | success | 122 | | 42 of 49 ambiguous order_dates month/day swapped, no warning; validator failed 1 check |
-| #? | drift_semantic_status_swap | manual (harness) | 3 Oct | ~8s | success | 122 | | 63 of 122 statuses wrong (shipped/delivered exchanged), no warning; validator failed 1 check |
-| #? | chatbot_drop_after_fix | manual (harness) | 3 Oct 22:25:27 | ~5s | failure | none | | same failure at orders_valid_email after chatbot edit |
-| #? | baseline_after_chatbot_fix | manual (harness) | 3 Oct | ~7s | success | 122 | | identical to baseline_run1; all 23 checks passed |
-| #? | chatbot_rename_check | manual (harness) | 3 Oct 23:38:57 | ~5s | failure | none | | same failure at orders_country_std after chatbot edit; same code_sha as before |
+| #16547 | drift_combined_schema | manual (harness) | 3 Oct 18:17:04 | ~4s | failure | none | | failed at orders_country_std; only the first missing column reported |
+| #16548 | drift_semantic_cents | manual (harness) | 3 Oct 18:26:26 | ~8s | success | 122 | | amounts 100x too large, no warning from Rhombus; validator failed 2 checks |
+| #16555 | drift_semantic_dates_ddmm | manual (harness) | 3 Oct | ~8s | success | 122 | | 42 of 49 ambiguous order_dates month/day swapped, no warning; validator failed 1 check |
+| #16556 | drift_semantic_status_swap | manual (harness) | 3 Oct | ~8s | success | 122 | | 63 of 122 statuses wrong (shipped/delivered exchanged), no warning; validator failed 1 check |
+| 16558 | chatbot_drop_after_fix | manual (harness) | 3 Oct 22:25:27 | ~5s | failure | none | | same failure at orders_valid_email after chatbot edit |
+| 16559 | baseline_after_chatbot_fix | manual (harness) | 3 Oct | ~7s | success | 122 | | identical to baseline_run1; all 23 checks passed |
+| 16560 | chatbot_rename_check | manual (harness) | 3 Oct 23:38:57 | ~5s | failure | none | | same failure at orders_country_std after chatbot edit; same code_sha as before |

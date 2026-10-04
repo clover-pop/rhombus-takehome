@@ -1,0 +1,100 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/aadyasharma/Desktop/rhombus-takehome/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/aadyasharma/Desktop/rhombus-takehome
+plugins: base-url-2.1.0, playwright-0.7.1
+collecting ... collected 16 items
+
+ui-tests/test_dashboard_ui.py::test_executions_table_has_the_expected_columns[chromium] PASSED [  6%]
+ui-tests/test_dashboard_ui.py::test_every_execution_row_is_well_formed_and_newest_first[chromium] PASSED [ 12%]
+ui-tests/test_dashboard_ui.py::test_summary_cards_add_up[chromium] FAILED [ 18%]
+ui-tests/test_dashboard_ui.py::test_table_total_matches_the_executions_card[chromium] FAILED [ 25%]
+ui-tests/test_dashboard_ui.py::test_schedule_cards_match_the_backend[chromium] FAILED [ 31%]
+ui-tests/test_dashboard_ui.py::test_at_least_one_execution_was_triggered_by_the_schedule[chromium] XFAIL [ 37%]
+ui-tests/test_pipeline_structure.py::test_pipeline_has_ten_nodes_with_the_expected_ids[chromium] PASSED [ 43%]
+ui-tests/test_pipeline_structure.py::test_nodes_carry_the_expected_labels[chromium] PASSED [ 50%]
+ui-tests/test_pipeline_structure.py::test_nodes_are_connected_in_order_from_input_to_output[chromium] PASSED [ 56%]
+ui-tests/test_project_page.py::test_project_opens_with_the_expected_tabs[chromium] PASSED [ 62%]
+ui-tests/test_project_page.py::test_canvas_renders_pipeline_nodes_and_edges[chromium] PASSED [ 68%]
+ui-tests/test_run_pipeline.py::test_run_button_produces_a_valid_output_in_gcs[chromium] PASSED [ 75%]
+ui-tests/test_schedule_ui.py::test_schedule_tab_shows_an_active_schedule[chromium] PASSED [ 81%]
+ui-tests/test_schedule_ui.py::test_ui_schedule_matches_the_backend[chromium] PASSED [ 87%]
+ui-tests/test_schedule_ui.py::test_add_schedule_dialog_can_be_cancelled_without_creating_anything[chromium] PASSED [ 93%]
+ui-tests/test_schedule_ui.py::test_schedule_card_shows_a_next_run_time[chromium] XFAIL [100%]
+
+=================================== FAILURES ===================================
+_____________________ test_summary_cards_add_up[chromium] ______________________
+
+dashboard_page = <Page url='https://rhombusai.com/dashboard'>
+
+    def test_summary_cards_add_up(dashboard_page):
+>       s = read_summary(dashboard_page)
+
+ui-tests/test_dashboard_ui.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+page = <Page url='https://rhombusai.com/dashboard'>
+
+    def read_summary(page):
+>       expect(page.locator("body")).to_contain_text(re.compile(r"Executions\s+[1-9]\d*\s+Recent runs"), timeout=30000)
+E       AssertionError: Locator expected to contain text 're.compile('Executions\\s+[1-9]\\d*\\s+Recent runs')'
+E       Actual value: DashboardNew ProjectSearchAll Projects (1)rhombus-takehomeAaadya.sharma1700@gmail.comOverviewExecutionsSchedulesExecutionsRecent pipeline runs and outcome trendsOverview (100%)10Successes (70%)7Failures (30%)313:5814:0018:1718:2620:3721:5422:0622:2522:2623:380s2s4s6s8sExecutionTriggerProjectStartedDurationStatusNodesExecution #16560manualrhombus-takehome10/3/2026, 11:38:53 PM4.1sFailure3 nodesExecution #16559manualrhombus-takehome10/3/2026, 10:26:28 PM7.8sSuccess10 nodesExecution #16558manualrhombus-takehome10/3/2026, 10:25:27 PM4.0sFailure5 nodesExecution #16557manualrhombus-takehome10/3/2026, 10:06:48 PM0.0sSuccess—Execution #16556manualrhombus-takehome10/3/2026, 9:54:13 PM7.6sSuccess10 nodesExecution #16555manualrhombus-takehome10/3/2026, 8:37:07 PM7.3sSuccess10 nodesExecution #16548manualrhombus-takehome10/3/2026, 6:26:27 PM6.9sSuccess10 nodesExecution #16547manualrhombus-takehome10/3/2026, 6:17:05 PM3.4sFailure3 nodesExecution #16493manualrhombus-takehome10/3/2026, 2:00:23 PM6.7sSuccess10 nodesExecution #16492manualrhombus-takehome10/3/2026, 1:58:45 PM7.9sSuccess10 nodesRows per page101-10 of 250s 
+E       Call log:
+E         - Expect "to_contain_text" with timeout 30000ms
+E         - waiting for locator("body")
+E           63 × locator resolved to <body class="__className_21cb31 __className_eef148 __className_031d66">…</body>
+E              - unexpected value "DashboardNew ProjectSearchAll Projects (1)rhombus-takehomeAaadya.sharma1700@gmail.comOverviewExecutionsSchedulesExecutionsRecent pipeline runs and outcome trendsOverview (100%)10Successes (70%)7Failures (30%)313:5814:0018:1718:2620:3721:5422:0622:2522:2623:380s2s4s6s8sExecutionTriggerProjectStartedDurationStatusNodesExecution #16560manualrhombus-takehome10/3/2026, 11:38:53 PM4.1sFailure3 nodesExecution #16559manualrhombus-takehome10/3/2026, 10:26:28 PM7.8sSuccess10 nodesExecution #16558manualrhombus-takehome10/3/2026, 10:25:27 PM4.0sFailure5 nodesExecution #16557manualrhombus-takehome10/3/2026, 10:06:48 PM0.0sSuccess—Execution #16556manualrhombus-takehome10/3/2026, 9:54:13 PM7.6sSuccess10 nodesExecution #16555manualrhombus-takehome10/3/2026, 8:37:07 PM7.3sSuccess10 nodesExecution #16548manualrhombus-takehome10/3/2026, 6:26:27 PM6.9sSuccess10 nodesExecution #16547manualrhombus-takehome10/3/2026, 6:17:05 PM3.4sFailure3 nodesExecution #16493manualrhombus-takehome10/3/2026, 2:00:23 PM6.7sSuccess10 nodesExecution #16492manualrhombus-takehome10/3/2026, 1:58:45 PM7.9sSuccess10 nodesRows per page101-10 of 250s"
+
+ui-tests/test_dashboard_ui.py:19: AssertionError
+____________ test_table_total_matches_the_executions_card[chromium] ____________
+
+dashboard_page = <Page url='https://rhombusai.com/dashboard'>
+
+    def test_table_total_matches_the_executions_card(dashboard_page):
+>       s = read_summary(dashboard_page)
+
+ui-tests/test_dashboard_ui.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+page = <Page url='https://rhombusai.com/dashboard'>
+
+    def read_summary(page):
+>       expect(page.locator("body")).to_contain_text(re.compile(r"Executions\s+[1-9]\d*\s+Recent runs"), timeout=30000)
+E       AssertionError: Locator expected to contain text 're.compile('Executions\\s+[1-9]\\d*\\s+Recent runs')'
+E       Actual value: DashboardNew ProjectSearchAll Projects (1)rhombus-takehomeAaadya.sharma1700@gmail.comOverviewExecutionsSchedulesExecutionsRecent pipeline runs and outcome trendsOverview (100%)10Successes (70%)7Failures (30%)313:5814:0018:1718:2620:3721:5422:0622:2522:2623:380s2s4s6s8sExecutionTriggerProjectStartedDurationStatusNodesExecution #16560manualrhombus-takehome10/3/2026, 11:38:53 PM4.1sFailure3 nodesExecution #16559manualrhombus-takehome10/3/2026, 10:26:28 PM7.8sSuccess10 nodesExecution #16558manualrhombus-takehome10/3/2026, 10:25:27 PM4.0sFailure5 nodesExecution #16557manualrhombus-takehome10/3/2026, 10:06:48 PM0.0sSuccess—Execution #16556manualrhombus-takehome10/3/2026, 9:54:13 PM7.6sSuccess10 nodesExecution #16555manualrhombus-takehome10/3/2026, 8:37:07 PM7.3sSuccess10 nodesExecution #16548manualrhombus-takehome10/3/2026, 6:26:27 PM6.9sSuccess10 nodesExecution #16547manualrhombus-takehome10/3/2026, 6:17:05 PM3.4sFailure3 nodesExecution #16493manualrhombus-takehome10/3/2026, 2:00:23 PM6.7sSuccess10 nodesExecution #16492manualrhombus-takehome10/3/2026, 1:58:45 PM7.9sSuccess10 nodesRows per page101-10 of 250s 
+E       Call log:
+E         - Expect "to_contain_text" with timeout 30000ms
+E         - waiting for locator("body")
+E           63 × locator resolved to <body class="__className_21cb31 __className_eef148 __className_031d66">…</body>
+E              - unexpected value "DashboardNew ProjectSearchAll Projects (1)rhombus-takehomeAaadya.sharma1700@gmail.comOverviewExecutionsSchedulesExecutionsRecent pipeline runs and outcome trendsOverview (100%)10Successes (70%)7Failures (30%)313:5814:0018:1718:2620:3721:5422:0622:2522:2623:380s2s4s6s8sExecutionTriggerProjectStartedDurationStatusNodesExecution #16560manualrhombus-takehome10/3/2026, 11:38:53 PM4.1sFailure3 nodesExecution #16559manualrhombus-takehome10/3/2026, 10:26:28 PM7.8sSuccess10 nodesExecution #16558manualrhombus-takehome10/3/2026, 10:25:27 PM4.0sFailure5 nodesExecution #16557manualrhombus-takehome10/3/2026, 10:06:48 PM0.0sSuccess—Execution #16556manualrhombus-takehome10/3/2026, 9:54:13 PM7.6sSuccess10 nodesExecution #16555manualrhombus-takehome10/3/2026, 8:37:07 PM7.3sSuccess10 nodesExecution #16548manualrhombus-takehome10/3/2026, 6:26:27 PM6.9sSuccess10 nodesExecution #16547manualrhombus-takehome10/3/2026, 6:17:05 PM3.4sFailure3 nodesExecution #16493manualrhombus-takehome10/3/2026, 2:00:23 PM6.7sSuccess10 nodesExecution #16492manualrhombus-takehome10/3/2026, 1:58:45 PM7.9sSuccess10 nodesRows per page101-10 of 250s"
+
+ui-tests/test_dashboard_ui.py:19: AssertionError
+_______________ test_schedule_cards_match_the_backend[chromium] ________________
+
+dashboard_page = <Page url='https://rhombusai.com/dashboard'>
+
+    def test_schedule_cards_match_the_backend(dashboard_page):
+        if not TOKEN:
+            pytest.skip("RHOMBUS_TOKEN is not set in .env")
+>       s = read_summary(dashboard_page)
+
+ui-tests/test_dashboard_ui.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+page = <Page url='https://rhombusai.com/dashboard'>
+
+    def read_summary(page):
+>       expect(page.locator("body")).to_contain_text(re.compile(r"Executions\s+[1-9]\d*\s+Recent runs"), timeout=30000)
+E       AssertionError: Locator expected to contain text 're.compile('Executions\\s+[1-9]\\d*\\s+Recent runs')'
+E       Actual value: DashboardNew ProjectSearchAll Projects (1)rhombus-takehomeAaadya.sharma1700@gmail.comOverviewExecutionsSchedulesExecutionsRecent pipeline runs and outcome trendsOverview (100%)10Successes (70%)7Failures (30%)313:5814:0018:1718:2620:3721:5422:0622:2522:2623:380s2s4s6s8sExecutionTriggerProjectStartedDurationStatusNodesExecution #16560manualrhombus-takehome10/3/2026, 11:38:53 PM4.1sFailure3 nodesExecution #16559manualrhombus-takehome10/3/2026, 10:26:28 PM7.8sSuccess10 nodesExecution #16558manualrhombus-takehome10/3/2026, 10:25:27 PM4.0sFailure5 nodesExecution #16557manualrhombus-takehome10/3/2026, 10:06:48 PM0.0sSuccess—Execution #16556manualrhombus-takehome10/3/2026, 9:54:13 PM7.6sSuccess10 nodesExecution #16555manualrhombus-takehome10/3/2026, 8:37:07 PM7.3sSuccess10 nodesExecution #16548manualrhombus-takehome10/3/2026, 6:26:27 PM6.9sSuccess10 nodesExecution #16547manualrhombus-takehome10/3/2026, 6:17:05 PM3.4sFailure3 nodesExecution #16493manualrhombus-takehome10/3/2026, 2:00:23 PM6.7sSuccess10 nodesExecution #16492manualrhombus-takehome10/3/2026, 1:58:45 PM7.9sSuccess10 nodesRows per page101-10 of 250s 
+E       Call log:
+E         - Expect "to_contain_text" with timeout 30000ms
+E         - waiting for locator("body")
+E           63 × locator resolved to <body class="__className_21cb31 __className_eef148 __className_031d66">…</body>
+E              - unexpected value "DashboardNew ProjectSearchAll Projects (1)rhombus-takehomeAaadya.sharma1700@gmail.comOverviewExecutionsSchedulesExecutionsRecent pipeline runs and outcome trendsOverview (100%)10Successes (70%)7Failures (30%)313:5814:0018:1718:2620:3721:5422:0622:2522:2623:380s2s4s6s8sExecutionTriggerProjectStartedDurationStatusNodesExecution #16560manualrhombus-takehome10/3/2026, 11:38:53 PM4.1sFailure3 nodesExecution #16559manualrhombus-takehome10/3/2026, 10:26:28 PM7.8sSuccess10 nodesExecution #16558manualrhombus-takehome10/3/2026, 10:25:27 PM4.0sFailure5 nodesExecution #16557manualrhombus-takehome10/3/2026, 10:06:48 PM0.0sSuccess—Execution #16556manualrhombus-takehome10/3/2026, 9:54:13 PM7.6sSuccess10 nodesExecution #16555manualrhombus-takehome10/3/2026, 8:37:07 PM7.3sSuccess10 nodesExecution #16548manualrhombus-takehome10/3/2026, 6:26:27 PM6.9sSuccess10 nodesExecution #16547manualrhombus-takehome10/3/2026, 6:17:05 PM3.4sFailure3 nodesExecution #16493manualrhombus-takehome10/3/2026, 2:00:23 PM6.7sSuccess10 nodesExecution #16492manualrhombus-takehome10/3/2026, 1:58:45 PM7.9sSuccess10 nodesRows per page101-10 of 250s"
+
+ui-tests/test_dashboard_ui.py:19: AssertionError
+=========================== short test summary info ============================
+XFAIL ui-tests/test_dashboard_ui.py::test_at_least_one_execution_was_triggered_by_the_schedule[chromium] - Known issue: scheduled runs never fire, so no execution has a trigger other than Manual (see observations/schedule-not-triggering.md)
+XFAIL ui-tests/test_schedule_ui.py::test_schedule_card_shows_a_next_run_time[chromium] - Known issue: the schedule card shows no next run time (see observations/schedule-not-triggering.md)
+============= 3 failed, 11 passed, 2 xfailed in 167.30s (0:02:47) ==============

@@ -8,7 +8,7 @@ Rhombus parses dates when it loads a file (seen with signup_date in the baseline
 
 ## What happened
 The run succeeded (execution #16555) and a file reached GCS with 122 rows and 9 columns. order_date was converted to ISO format, but not always correctly:
-- Ambiguous dates (day 12 or lower): 49 rows, 42 had month and day swapped (86%), 7 were unchanged [of which N have day equal to month, so a swap changes nothing].
+- Ambiguous dates (day 12 or lower): 49 rows, 42 had month and day swapped (86%), 7 were unchanged (of which 7 have day equal to month, so a swap changes nothing).
 - Unambiguous dates (day above 12): 73 rows, all correct.
 Examples: order 1008: original 2024-08-02, output 2024-02-08. Order 1094: 2025-05-02 became 2025-02-05. Order 1131: 2024-12-05 became 2024-05-12.
 

@@ -158,7 +158,8 @@ def main():
     print("\nsummary:", len(results) - fails, "ok or skipped,", fails, "failed")
     with open(RESULTS, "a", encoding="utf-8") as f:
         f.write(json.dumps({"case": args.case, "output": args.output, "results": results}) + "\n")
+    return fails
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(1 if main() else 0)
