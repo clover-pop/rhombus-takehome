@@ -74,7 +74,7 @@ What was frustrating: a schedule that says "Active" but never runs, with a blank
 
 ## 4. Demo video
 
-TODO-REPLACE: add the link here.
+https://youtu.be/W5P6gQiRrVk?si=2-l7mdXhRUNIEG7j
 
 ## 5. Limitations and trade-offs
 
