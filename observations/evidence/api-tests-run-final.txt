@@ -1,5 +1,5 @@
 ============================= test session starts ==============================
-platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/aadyasharma/Desktop/rhombus-takehome/.venv/bin/python
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/aadyasharma/Desktop/rhombus-takehome/.venv/bin/python3
 cachedir: .pytest_cache
 rootdir: /Users/aadyasharma/Desktop/rhombus-takehome
 configfile: pytest.ini
@@ -48,4 +48,4 @@ XFAIL api-tests/test_bad_input_api.py::test_schedule_list_handles_bad_paging[pag
 XFAIL api-tests/test_bad_input_api.py::test_history_handles_bad_limit[limit_negative] - Known issue: the API returns HTTP 500 for this invalid input (see observations/api-500-on-invalid-paging.md)
 XFAIL api-tests/test_schedules_api.py::test_enabled_schedule_next_run_is_not_stale - Known issue: scheduled runs never fire (see observations/schedule-not-triggering.md)
 XFAIL api-tests/test_schedules_api.py::test_enabled_hourly_schedule_has_run_at_least_once - Known issue: scheduled runs never fire (see observations/schedule-not-triggering.md)
-======================== 30 passed, 5 xfailed in 10.55s ========================
+======================== 30 passed, 5 xfailed in 6.03s =========================

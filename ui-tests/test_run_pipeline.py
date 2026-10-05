@@ -8,7 +8,8 @@ import pytest
 from google.cloud import storage
 from playwright.sync_api import expect
 
-from ui_helpers import dismiss_ad_blocker_modal, open_dashboard, open_project, poll_until, read_execution_rows
+from ui_helpers import (dismiss_ad_blocker_modal, open_dashboard, open_project, poll_until,
+                        read_execution_rows, wait_for_full_pipeline)
 
 ROOT = Path(__file__).resolve().parents[1]
 S3_BUCKET = os.environ.get("S3_BUCKET", "")
@@ -32,20 +33,32 @@ def test_run_button_produces_a_valid_output_in_gcs(page):
     before_number = max(r["number"] for r in read_execution_rows(page))
     before_files = {b.name for b in gcs.list_blobs(GCS_BUCKET, prefix=PREFIX)}
 
+    # A very wide window draws all ten nodes. Wait until they are all there before pressing Run,
+    # because a run started before the pipeline has loaded may execute nothing.
+    page.set_viewport_size({"width": 3400, "height": 1000})
     open_project(page)
+    wait_for_full_pipeline(page)
     run_button = page.locator("button:has(svg.lucide-play)")
     expect(run_button).to_have_count(1)
+    expect(run_button).to_be_enabled()
     run_button.click()
 
     def new_output():
         names = [b for b in gcs.list_blobs(GCS_BUCKET, prefix=PREFIX) if b.name not in before_files]
         return names[0] if names else None
-    blob = poll_until(new_output, timeout_s=120, interval_s=3, what="a new output file in GCS")
+
+    try:
+        blob = poll_until(new_output, timeout_s=120, interval_s=3, what="a new output file in GCS")
+    except AssertionError as error:
+        open_dashboard(page)
+        newest = max(read_execution_rows(page), key=lambda r: r["number"])
+        raise AssertionError(str(error) + ". The newest execution on the dashboard is " + str(newest)) from None
 
     def newer_execution():
         open_dashboard(page)
         newest = max(read_execution_rows(page), key=lambda r: r["number"])
         return newest if newest["number"] > before_number else None
+
     newest = poll_until(newer_execution, timeout_s=90, interval_s=4, what="a new execution on the dashboard")
     assert newest["status"] == "Success", newest
     assert newest["trigger"] == "Manual", newest

@@ -7,7 +7,7 @@ Multiplied every numeric amount_usd value by 100 in datasets/drift_semantic_cent
 The run would succeed with 122 rows, with amounts in the thousands, no warning from Rhombus, and my validator failing the amount checks. This prediction was written before running this case.
 
 ## What happened
-The run succeeded (6:26:26 PM to 6:26:34 PM on 3 Oct, execution 16548. A file reached GCS with 122 rows and all 9 columns. Every amount was 100 times the baseline value (for example order 1093: 124.47 became 12447.0).
+The run succeeded (6:26:26 PM to 6:26:34 PM on 3 Oct, execution #16548. A file reached GCS with 122 rows and all 9 columns. Every amount was 100 times the baseline value (for example order 1093: 124.47 became 12447.0).
 
 ## Did Rhombus notice?
 No. The log shows "Pipeline completed successfully", no warnings, and the amount step reports it modified 136 cells like a normal run. There is no check on whether values are plausible.

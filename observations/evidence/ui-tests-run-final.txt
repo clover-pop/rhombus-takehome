@@ -1,5 +1,5 @@
 ============================= test session starts ==============================
-platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/aadyasharma/Desktop/rhombus-takehome/.venv/bin/python
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/aadyasharma/Desktop/rhombus-takehome/.venv/bin/python3
 cachedir: .pytest_cache
 rootdir: /Users/aadyasharma/Desktop/rhombus-takehome
 configfile: pytest.ini
@@ -15,9 +15,9 @@ ui-tests/test_dashboard_ui.py::test_at_least_one_execution_was_triggered_by_the_
 ui-tests/test_pipeline_structure.py::test_pipeline_has_ten_nodes_with_the_expected_ids[chromium] PASSED [ 28%]
 ui-tests/test_pipeline_structure.py::test_nodes_carry_the_expected_labels[chromium] PASSED [ 32%]
 ui-tests/test_pipeline_structure.py::test_nodes_are_connected_in_order_from_input_to_output[chromium] PASSED [ 36%]
-ui-tests/test_project_page.py::test_project_opens_with_the_expected_tabs[chromium] FAILED [ 40%]
+ui-tests/test_project_page.py::test_project_opens_with_the_expected_tabs[chromium] PASSED [ 40%]
 ui-tests/test_project_page.py::test_canvas_renders_pipeline_nodes_and_edges[chromium] PASSED [ 44%]
-ui-tests/test_run_pipeline.py::test_run_button_produces_a_valid_output_in_gcs[chromium] FAILED [ 48%]
+ui-tests/test_run_pipeline.py::test_run_button_produces_a_valid_output_in_gcs[chromium] PASSED [ 48%]
 ui-tests/test_schedule_ui.py::test_schedule_tab_shows_an_active_schedule[chromium] PASSED [ 52%]
 ui-tests/test_schedule_ui.py::test_ui_schedule_matches_the_backend[chromium] PASSED [ 56%]
 ui-tests/test_schedule_ui.py::test_add_schedule_dialog_can_be_cancelled_without_creating_anything[chromium] PASSED [ 60%]
@@ -27,161 +27,13 @@ ui-tests/test_source_and_destination.py::test_s3_source_is_connected_and_points_
 ui-tests/test_source_and_destination.py::test_data_output_panel_points_at_my_gcs_bucket[chromium] PASSED [ 76%]
 ui-tests/test_third_party_forms.py::test_source_provider_list_offers_four_providers[chromium] PASSED [ 80%]
 ui-tests/test_third_party_forms.py::test_s3_form_shows_the_required_fields[chromium] PASSED [ 84%]
-ui-tests/test_third_party_forms.py::test_s3_form_with_an_empty_bucket_creates_nothing[chromium] FAILED [ 88%]
+ui-tests/test_third_party_forms.py::test_s3_connect_button_is_disabled_until_required_fields_are_filled[chromium] XFAIL [ 88%]
 ui-tests/test_third_party_forms.py::test_browse_files_shows_the_baseline_with_the_size_stored_in_s3[chromium] PASSED [ 92%]
 ui-tests/test_third_party_forms.py::test_gcs_destination_form_cannot_be_created_without_credentials[chromium] PASSED [ 96%]
 ui-tests/test_third_party_forms.py::test_add_transformation_menu_lists_the_building_blocks[chromium] PASSED [100%]
 
-=================================== FAILURES ===================================
-_____________ test_project_opens_with_the_expected_tabs[chromium] ______________
-
-project_page = <Page url='https://rhombusai.com/workflow/5009'>
-
-    def test_project_opens_with_the_expected_tabs(project_page):
-        page = project_page
-        for name in ["Canvas", "Workspace", "AI Builder", "Schedule"]:
-            expect(page.get_by_role("tab", name=name)).to_be_visible()
-        expect(page.get_by_role("button", name="Dashboard")).to_be_visible()
->       expect(page.get_by_test_id("project-card")).to_contain_text("rhombus-takehome")
-E       AssertionError: Locator expected to contain text 'rhombus-takehome'
-E       Actual value: None
-E       Error: strict mode violation: get_by_test_id("project-card") resolved to 2 elements:
-E           1) <a href="/workflow/5260" data-testid="project-card" class="project-sidebar-control group relative flex h-10 items-center rounded-2xl border px-3 shadow-none transition-all duration-200">…</a> aka get_by_role("link", name="throwaway")
-E           2) <a href="/workflow/5009" data-testid="project-card" class="project-sidebar-control group relative flex h-10 items-center rounded-2xl border px-3 shadow-none transition-all duration-200 project-sidebar-control-active">…</a> aka get_by_role("link", name="rhombus-takehome")
-E        
-E       Call log:
-E         - Expect "to_contain_text" with timeout 5000ms
-E         - waiting for get_by_test_id("project-card")
-
-ui-tests/test_project_page.py:9: AssertionError
-___________ test_run_button_produces_a_valid_output_in_gcs[chromium] ___________
-
-page = <Page url='https://rhombusai.com/workflow/5009'>
-
-    def test_run_button_produces_a_valid_output_in_gcs(page):
-        if not S3_BUCKET or not GCS_BUCKET:
-            pytest.skip("S3_BUCKET and GCS_BUCKET must be set in .env")
-        s3, gcs = boto3.client("s3"), storage.Client()
-    
-        # Precondition: the source must hold the baseline, otherwise this test would be measuring a drift case.
-        in_s3 = s3.get_object(Bucket=S3_BUCKET, Key="input/baseline.csv")["Body"].read()
-        assert in_s3 == (ROOT / "datasets" / "baseline.csv").read_bytes(), (
-            "S3 does not hold the baseline. Run: python -W ignore data-validation/swap_s3.py datasets/baseline.csv")
-    
-        dismiss_ad_blocker_modal(page)
-        open_dashboard(page)
-        before_number = max(r["number"] for r in read_execution_rows(page))
-        before_files = {b.name for b in gcs.list_blobs(GCS_BUCKET, prefix=PREFIX)}
-    
-        open_project(page)
-        run_button = page.locator("button:has(svg.lucide-play)")
-        expect(run_button).to_have_count(1)
-        run_button.click()
-    
-        def new_output():
-            names = [b for b in gcs.list_blobs(GCS_BUCKET, prefix=PREFIX) if b.name not in before_files]
-            return names[0] if names else None
->       blob = poll_until(new_output, timeout_s=120, interval_s=3, what="a new output file in GCS")
-
-ui-tests/test_run_pipeline.py:43: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-fn = <function test_run_button_produces_a_valid_output_in_gcs.<locals>.new_output at 0x108b950d0>
-timeout_s = 120, interval_s = 3, what = 'a new output file in GCS'
-
-    def poll_until(fn, timeout_s, interval_s, what):
-        """Bounded wait on a real condition (used for outside systems such as GCS, not a fixed sleep)."""
-        deadline = time.monotonic() + timeout_s
-        while True:
-            value = fn()
-            if value:
-                return value
-            if time.monotonic() >= deadline:
->               raise AssertionError("timed out after " + str(timeout_s) + "s waiting for " + what)
-E               AssertionError: timed out after 120s waiting for a new output file in GCS
-
-ui-tests/ui_helpers.py:102: AssertionError
-_________ test_s3_form_with_an_empty_bucket_creates_nothing[chromium] __________
-
-wide_project_page = <Page url='https://rhombusai.com/workflow/5009'>
-
-    def test_s3_form_with_an_empty_bucket_creates_nothing(wide_project_page):
-        page = wide_project_page
-        dialog = open_sources_list(page)
-        sources_before = dialog.get_by_text("Amazon S3").count()
-        assert sources_before >= 1, "the connected S3 source should be listed"
-    
-        dialog.get_by_role("button", name="Add Data Sources").click()
-        dialog.get_by_text(S3_TILE).last.click()
-        bucket = dialog.locator('input[name="bucket"]')
-        expect(bucket).to_be_visible(timeout=30000)
-        expect(bucket).to_have_value("")
-    
-        connect = dialog.get_by_role("button", name="Connect S3 source")
-        if connect.is_enabled():
-            connect.click()
-            # the form must not move on to a connected state
-            expect(bucket).to_be_visible()
-            expect(bucket).to_have_value("")
-    
-        dialog.get_by_role("button", name="Cancel").click()
-        expect(dialog).to_be_hidden()
-    
-        page.get_by_test_id("right-sidebar").get_by_text("Third Party Sources").click()
-        dialog = sources_dialog(page)
->       expect(dialog.get_by_role("button", name="Browse files").first).to_be_visible(timeout=30000)
-E       AssertionError: Locator expected to be visible
-E       Actual value: - dialog "Third Party Data":
-E         - heading "Third Party Data" [level=2]
-E         - paragraph: Dialog content and actions are available below.
-E         - img
-E         - heading "Connection details" [level=3]
-E         - text: Bucket*
-E         - button "More information":
-E           - img
-E         - textbox "Bucket*":
-E           - /placeholder: company-analytics
-E         - text: Region*
-E         - button "More information":
-E           - img
-E         - combobox "Region*": Select region
-E         - paragraph: "Supported tabular files: CSV, TSV, CSV.GZ, TSV.GZ, Parquet, JSONL, NDJSON, XLS, and XLSX. PDF and image files are not currently available through Amazon S3 connections; upload them directly from your device instead."
-E         - heading "Optional settings Folder, source name, and KMS encryption" [level=3]:
-E           - button "Optional settings Folder, source name, and KMS encryption":
-E             - text: Optional settings Folder, source name, and KMS encryption
-E             - img
-E         - paragraph: Enter a bucket to generate the AWS access setup. Leaving Folder / path blank grants access to the whole bucket.
-E         - paragraph: Verification searches a bounded set of keys in the selected scope and reads at most one supported object. It never enumerates your buckets or copies objects.
-E         - button "Connect S3 source":
-E           - img
-E           - text: Connect S3 source
-E         - img
-E         - paragraph: Amazon S3 is AWS's object storage service. Rhombo reads the selected bucket or folder in place; your source files are not copied into Rhombo storage.
-E         - paragraph: "Required Permissions:"
-E         - list:
-E           - listitem:
-E             - code: ListBucket
-E             - text: – To view files in the configured bucket or folder
-E           - listitem:
-E             - code: GetObject
-E             - text: – To read selected source files
-E         - paragraph:
-E           - link "View Setup Guide":
-E             - /url: https://doc.rhombusai.com/docs/Integrations/aws-s3-connection
-E         - button "Back to Data Sources":
-E           - img
-E           - text: Back to Data Sources
-E         - button "Cancel"
-E         - button "Close":
-E           - img
-E           - text: Close
-E       Error: element(s) not found 
-E       Call log:
-E         - Expect "to_be_visible" with timeout 30000ms
-E         - waiting for get_by_role("dialog").filter(has_text="Third Party Data").get_by_role("button", name="Browse files").first
-
-ui-tests/test_third_party_forms.py:94: AssertionError
 =========================== short test summary info ============================
 XFAIL ui-tests/test_dashboard_ui.py::test_at_least_one_execution_was_triggered_by_the_schedule[chromium] - Known issue: scheduled runs never fire, so no execution has a trigger other than Manual (see observations/schedule-not-triggering.md)
 XFAIL ui-tests/test_schedule_ui.py::test_schedule_card_shows_a_next_run_time[chromium] - Known issue: the schedule card shows no next run time (see observations/schedule-not-triggering.md)
-============= 3 failed, 20 passed, 2 xfailed in 336.82s (0:05:36) ==============
+XFAIL ui-tests/test_third_party_forms.py::test_s3_connect_button_is_disabled_until_required_fields_are_filled[chromium] - The S3 form leaves Connect S3 source enabled with the required Bucket and Region empty, unlike the Google Cloud form. Clicking it was also followed by the pipeline nodes losing their settings, so this test never clicks it.
+================== 22 passed, 3 xfailed in 124.95s (0:02:04) ===================

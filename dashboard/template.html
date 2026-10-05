@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Rhombus AI did when its input changed</title>
+<style>
+:root{
+  --paper:#EEF1EC; --paper-2:#E2E8E2; --ink:#15212B; --ink-2:#44535F; --rule:#B4BFB8;
+  --good:#1B7A62; --good-bg:#CBE6DC; --partial:#A87408; --partial-bg:#F2E0AE;
+  --bad:#B0372C; --bad-bg:#F1CBC4; --na:#7D8A92; --na-bg:#DDE3E1; --link:#1B4F8C;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:"Avenir Next","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5}
+body{margin:0;padding:0 clamp(16px,4vw,48px) 64px}
+main,header,footer{max-width:1060px;margin:0 auto}
+a{color:var(--link)}
+a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid #1B4F8C;outline-offset:2px}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.15;margin:0}
+h1{font-size:clamp(2rem,5.4vw,3.5rem);max-width:19em;letter-spacing:-.01em}
+h2{font-size:clamp(1.5rem,3vw,2rem)}
+h3{font-size:1.15rem}
+p{margin:0 0 .75em;max-width:68ch}
+.hero{padding:56px 0 28px}
+.byline{color:var(--ink-2);margin-bottom:20px}
+.lede{font-size:1.15rem;margin-top:22px;max-width:62ch}
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;margin:22px 0 0;padding:0;list-style:none;color:var(--ink-2);font-size:.93rem}
+.legend li{display:flex;align-items:center;gap:8px}
+section{border-top:2px solid var(--ink);padding:30px 0 20px;margin-top:34px}
+section>h2+p{color:var(--ink-2);margin-top:8px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
+.chip{font:inherit;font-size:.93rem;padding:6px 14px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.sq{width:22px;height:22px;border:0;padding:0;border-radius:3px;cursor:pointer;flex:none;background:var(--good)}
+.sq.fail{background:repeating-linear-gradient(135deg,var(--bad) 0 4px,#8F2A21 4px 8px)}
+.sq.empty{background:var(--partial-bg);box-shadow:inset 0 0 0 3px var(--partial)}
+.sw{display:inline-block;width:16px;height:16px;border-radius:3px;background:var(--good);flex:none}
+.sw.fail{background:repeating-linear-gradient(135deg,var(--bad) 0 4px,#8F2A21 4px 8px)}
+.sw.empty{background:var(--partial-bg);box-shadow:inset 0 0 0 3px var(--partial)}
+.h-row{display:grid;grid-template-columns:minmax(180px,280px) 1fr auto;gap:8px 18px;align-items:center;padding:9px 0;border-bottom:1px solid var(--rule)}
+.h-squares{display:flex;flex-wrap:wrap;gap:5px}
+.h-tally{color:var(--ink-2);font-size:.92rem;text-align:right;min-width:12em}
+.detail{margin:14px 0 0;padding:12px 16px;background:var(--paper-2);border-left:5px solid var(--ink);min-height:3.2em;max-width:none}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;padding:6px 10px;vertical-align:top}
+.heat{border-collapse:separate;border-spacing:6px;min-width:860px}
+.heat th{font-weight:600;font-size:.92rem;padding:4px 6px 6px;vertical-align:bottom}
+.heat th.rowh{font-family:var(--serif);font-size:1rem;vertical-align:middle;width:17%}
+.cell{display:block;width:100%;min-height:62px;padding:8px 10px;text-align:left;font:inherit;color:var(--ink);cursor:pointer;border:0;border-left:7px solid var(--na);background:var(--na-bg);border-radius:2px}
+.cell.good{background:var(--good-bg);border-left-color:var(--good)}
+.cell.partial{background:var(--partial-bg);border-left-color:var(--partial)}
+.cell.bad{background:var(--bad-bg);border-left-color:var(--bad)}
+.cell[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:1px}
+.c-short{display:block;font-weight:600;font-size:.95rem}
+.c-level{display:block;font-size:.8rem;color:var(--ink-2)}
+.panel{margin-top:14px;padding:16px 18px;background:var(--paper-2);border-left:7px solid var(--ink);max-width:none}
+.panel.good{border-left-color:var(--good)} .panel.partial{border-left-color:var(--partial)} .panel.bad{border-left-color:var(--bad)}
+.panel h3{margin-bottom:6px}
+.verdict{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.85rem;font-weight:600;background:var(--na-bg)}
+.verdict.good{background:var(--good-bg)} .verdict.partial{background:var(--partial-bg)} .verdict.bad{background:var(--bad-bg)}
+.group{margin:24px 0 8px}
+.group h3{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.fp{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem}
+.fp.same{color:var(--good)}
+.cmp{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:14px 0}
+.cmp label{display:flex;flex-direction:column;font-size:.9rem;gap:4px}
+select,.btn{font:inherit;padding:7px 10px;border:1.5px solid var(--ink);background:#fff;color:var(--ink);border-radius:3px}
+.sbs th{background:var(--paper-2)}
+.sbs td.a{background:var(--bad-bg)} .sbs td.b{background:var(--good-bg)}
+.chart text{font-family:var(--sans);font-size:12.5px;fill:var(--ink)}
+.chart .muted{fill:var(--ink-2)}
+.chart .grid{stroke:var(--rule);stroke-width:1}
+.chart .mean{fill:var(--paper-2)}
+.chart .dot.ok{fill:var(--good)} .chart .dot.fail{fill:var(--bad)} .chart .dot.empty{fill:var(--partial)}
+.chart .dot{stroke:var(--paper);stroke-width:1.5}
+ul.facts{padding-left:1.1em;margin:10px 0 0;max-width:70ch}
+footer{margin-top:44px;color:var(--ink-2);font-size:.93rem}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9em;background:var(--paper-2);padding:1px 5px;border-radius:3px}
+@media (max-width:720px){.h-row{grid-template-columns:1fr}.h-tally{text-align:left}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <p class="byline">Rhombus AI take-home, tested by Aadya Sharma</p>
+  <h1>Missing columns stopped the pipeline. Extra columns and changed meaning did not.</h1>
+  <p class="lede" id="lede"></p>
+  <ul class="legend" aria-label="Legend">
+    <li><span class="sw"></span>Completed all nodes</li>
+    <li><span class="sw fail"></span>Stopped with an error</li>
+    <li><span class="sw empty"></span>Recorded as a success but ran no nodes</li>
+  </ul>
+</header>
+<main>
+  <p id="filter-label" style="margin:22px 0 0;color:var(--ink-2)">Choose which runs the health and time sections show:</p>
+  <div class="filters" role="group" aria-labelledby="filter-label" id="filters"></div>
+
+  <section aria-labelledby="h-health">
+    <h2 id="h-health">Pipeline health by scenario</h2>
+    <p>Each square is one execution, in the order it ran. Hover or focus a square for its details; the scenario name opens the write-up.</p>
+    <div id="health-rows"></div>
+    <p class="detail" id="run-detail" aria-live="polite">Pick a square to see its execution.</p>
+  </section>
+
+  <section aria-labelledby="h-heat">
+    <h2 id="h-heat">What each kind of change got through</h2>
+    <p>One row per drift case. Pick any cell to read why I rated it that way. The ratings are my judgement from the write-ups; the validator column also shows the real check counts.</p>
+    <div class="scroll"><table class="heat" id="heat"></table></div>
+    <div class="panel" id="cell-detail" aria-live="polite"></div>
+  </section>
+
+  <section aria-labelledby="h-cons">
+    <h2 id="h-cons">Does the same input give the same output?</h2>
+    <p id="cons-intro"></p>
+    <div id="cons-groups"></div>
+    <h3 style="margin-top:26px">Compare any two outputs cell by cell</h3>
+    <div class="cmp">
+      <label>Output A<select id="cmp-a"></select></label>
+      <label>Output B<select id="cmp-b"></select></label>
+    </div>
+    <div id="cmp-result" aria-live="polite"></div>
+    <h3 style="margin-top:30px">When it fails, it fails the same way</h3>
+    <p>Each node reports a fingerprint of the code it generated. The same node showed the same fingerprint in every failure, before and after the chatbot's edit, which suggests the code is generated once and reused.</p>
+    <div class="scroll"><table id="fp-table"><thead><tr><th>Node</th><th>Code fingerprint</th><th>Seen in</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section aria-labelledby="h-time">
+    <h2 id="h-time">Time and resources</h2>
+    <p id="time-intro"></p>
+    <div class="filters" role="group" aria-label="Order the chart" id="sorts"></div>
+    <div class="scroll"><svg id="chart" class="chart" role="img"></svg></div>
+    <h3 style="margin-top:26px">What reached the destination</h3>
+    <div class="scroll"><table id="out-table"><thead><tr><th>Scenario</th><th>Nodes executed</th><th>Output rows</th><th>Output size</th></tr></thead><tbody></tbody></table></div>
+    <ul class="facts" id="notes"></ul>
+  </section>
+</main>
+<footer>
+  <p>Built from files in the <a id="repo-link" href="#">repository</a> by <code>dashboard/build.py</code> on <span id="gen"></span>. Re-run <code>python ui-tests/export_executions.py</code> and then <code>python dashboard/build.py</code> to refresh it.</p>
+  <p>Most scenarios have only one or two runs, so read these as case studies and not as rates. Everything was run by hand because the schedule never fired.</p>
+</footer>
+
+<script id="data" type="application/json">__DATA__</script>
+<script>
+(function () {
+  var D = JSON.parse(document.getElementById('data').textContent);
+  var LEVELS = { good: 'Handled', partial: 'Partly handled', bad: 'Missed', na: 'Not applicable' };
+  var GROUPS = [['all', 'All runs'], ['baseline', 'Baseline'], ['schema', 'Schema drift'], ['semantic', 'Semantic drift'], ['other', 'Other runs']];
+  var state = { group: 'all', sort: 'order', cell: null };
+
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function node(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined && text !== null) e.textContent = text;
+    return e;
+  }
+  function ns(tag, attrs) {
+    var e = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    Object.keys(attrs || {}).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+    return e;
+  }
+  function visible() {
+    return D.scenarios.filter(function (s) {
+      return s.executions.length > 0 && (state.group === 'all' || s.group === state.group);
+    });
+  }
+  function seconds(v) { return v.toFixed(1) + 's'; }
+  function describe(ex) {
+    var nodes = ex.nodes ? ex.nodes + ' nodes' : 'no nodes ran';
+    return 'Execution #' + ex.number + ', ' + ex.started + ' Sydney time, ' + seconds(ex.duration_s) + ', ' + nodes + ', ' + ex.status.toLowerCase() + (ex.case ? ' (' + ex.case + ')' : '');
+  }
+
+  /* hero */
+  var t = D.totals;
+  var clearedN = (D.scenarios.filter(function (s) { return s.id === 'cleared'; })[0] || { executions: [] }).executions.length;
+  $('#lede').textContent = 'I ran one S3-to-Google-Cloud-Storage cleaning pipeline ' + t.executions + ' times between ' + t.first + ' and ' + t.last +
+    ' (Sydney time), changing its input on purpose. Four of the five schema changes stopped the run, one of them with a misleading internal error. The fifth (an extra column) and all three changes in meaning completed with no warning. Only checks against a known-good reference noticed.' +
+    (clearedN ? ' ' + clearedN + ' of the runs failed for a different reason: three pipeline nodes lost their settings partway through testing. Those are not planned test cases.' : '');
+  $('#gen').textContent = D.generated;
+  $('#repo-link').href = D.repo;
+
+  /* filters */
+  function renderFilters() {
+    var host = $('#filters'); host.textContent = '';
+    GROUPS.forEach(function (g) {
+      var b = node('button', 'chip', g[1]);
+      b.type = 'button';
+      b.setAttribute('aria-pressed', String(state.group === g[0]));
+      b.addEventListener('click', function () { state.group = g[0]; renderFilters(); renderHealth(); renderTime(); });
+      host.appendChild(b);
+    });
+  }
+
+  /* health */
+  function tally(s) {
+    var runs = s.executions.length;
+    var fail = s.executions.filter(function (e) { return e.outcome === 'fail'; }).length;
+    var empty = s.executions.filter(function (e) { return e.outcome === 'empty'; }).length;
+    if (fail) return fail + ' of ' + runs + ' stopped with an error';
+    if (empty) return (runs - empty) + ' of ' + runs + ' completed, ' + empty + ' ran nothing';
+    return runs + ' of ' + runs + ' completed';
+  }
+  function showRun(ex) { $('#run-detail').textContent = describe(ex); }
+  function renderHealth() {
+    var host = $('#health-rows'); host.textContent = '';
+    visible().forEach(function (s) {
+      var row = node('div', 'h-row');
+      var name = node('div', 'h-name');
+      var a = node('a', null, s.label); a.href = s.evidence; a.target = '_blank'; a.rel = 'noopener';
+      name.appendChild(a);
+      var sq = node('div', 'h-squares');
+      s.executions.forEach(function (ex) {
+        var b = node('button', 'sq ' + ex.outcome);
+        b.type = 'button';
+        b.setAttribute('aria-label', describe(ex));
+        ['mouseenter', 'focus', 'click'].forEach(function (evt) { b.addEventListener(evt, function () { showRun(ex); }); });
+        sq.appendChild(b);
+      });
+      row.appendChild(name); row.appendChild(sq); row.appendChild(node('div', 'h-tally', tally(s)));
+      host.appendChild(row);
+    });
+    if (!visible().length) host.appendChild(node('p', null, 'No runs in this group yet.'));
+  }
+
+  /* heat map */
+  function renderHeat() {
+    var table = $('#heat'); table.textContent = '';
+    var head = node('tr'); head.appendChild(node('th', null, ''));
+    D.heat.columns.forEach(function (c) { var th = node('th', null, c.label); th.scope = 'col'; th.title = c.hint; head.appendChild(th); });
+    var thead = node('thead'); thead.appendChild(head); table.appendChild(thead);
+    var body = node('tbody');
+    D.heat.rows.forEach(function (r, ri) {
+      var tr = node('tr');
+      var th = node('th', 'rowh', r.label); th.scope = 'row'; tr.appendChild(th);
+      r.cells.forEach(function (c, ci) {
+        var td = node('td');
+        var b = node('button', 'cell ' + c.level);
+        b.type = 'button';
+        b.appendChild(node('span', 'c-short', c.short));
+        b.appendChild(node('span', 'c-level', LEVELS[c.level]));
+        b.setAttribute('aria-pressed', String(!!(state.cell && state.cell[0] === ri && state.cell[1] === ci)));
+        b.setAttribute('aria-label', r.label + ', ' + D.heat.columns[ci].label + ': ' + c.short + ', ' + LEVELS[c.level]);
+        b.addEventListener('click', function () { state.cell = [ri, ci]; renderHeat(); renderCell(); });
+        td.appendChild(b); tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+    table.appendChild(body);
+  }
+  function renderCell() {
+    var host = $('#cell-detail'); host.textContent = '';
+    if (!state.cell) { host.className = 'panel'; host.textContent = 'Pick a cell to read why it is rated that way.'; return; }
+    var row = D.heat.rows[state.cell[0]], col = D.heat.columns[state.cell[1]], c = row.cells[state.cell[1]];
+    host.className = 'panel ' + c.level;
+    host.appendChild(node('h3', null, row.label + ': ' + col.label));
+    host.appendChild(node('span', 'verdict ' + c.level, LEVELS[c.level] + ' (' + c.short + ')'));
+    host.appendChild(node('p', null, c.detail));
+    if (col.id === 'validator') {
+      var sc = D.scenarios.filter(function (s) { return s.id === row.scenario; })[0];
+      if (sc && sc.validator) {
+        var v = sc.validator;
+        host.appendChild(node('p', null, 'Validator result: ' + v.failed.length + ' of ' + v.checks + ' checks failed' + (v.failed.length ? ': ' + v.failed.map(function (f) { return f.name; }).join('; ') : '.')));
+      }
+    }
+    var a = node('a', null, 'Read the full write-up');
+    var sc2 = D.scenarios.filter(function (s) { return s.id === row.scenario; })[0];
+    a.href = sc2.evidence; a.target = '_blank'; a.rel = 'noopener';
+    host.appendChild(a);
+  }
+
+  /* consistency */
+  var VERDICT = {
+    identical: ['good', 'Byte-identical files'],
+    same_content: ['partial', 'Same content, different row order'],
+    different: ['bad', 'Content differs'],
+    single: ['na', 'Only one run so far']
+  };
+  function renderConsistency() {
+    var host = $('#cons-groups'); host.textContent = '';
+    var total = D.consistency.groups.reduce(function (n, g) { return n + g.runs.length; }, 0);
+    $('#cons-intro').textContent = 'The same baseline file was run through the pipeline several times. A fingerprint is a short hash: equal fingerprints mean equal files (or, for the content fingerprint, equal rows in any order). ' + total + ' outputs are compared below.';
+    D.consistency.groups.forEach(function (g) {
+      var wrap = node('div', 'group');
+      var h = node('h3', null, g.title + ' ');
+      var v = VERDICT[g.verdict];
+      h.appendChild(node('span', 'verdict ' + v[0], v[1]));
+      wrap.appendChild(h);
+      var tbl = node('table');
+      var thead = node('thead'); var hr = node('tr');
+      ['Run', 'Rows', 'Columns', 'Size', 'File fingerprint', 'Content fingerprint'].forEach(function (x) { hr.appendChild(node('th', null, x)); });
+      thead.appendChild(hr); tbl.appendChild(thead);
+      var tb = node('tbody');
+      g.runs.forEach(function (r, i) {
+        var tr = node('tr');
+        tr.appendChild(node('td', null, r.name));
+        tr.appendChild(node('td', null, String(r.rows)));
+        tr.appendChild(node('td', null, String(r.columns)));
+        tr.appendChild(node('td', null, r.kb + ' KB'));
+        tr.appendChild(node('td', 'fp' + (i && r.sha_file === g.runs[0].sha_file ? ' same' : ''), r.sha_file));
+        tr.appendChild(node('td', 'fp' + (i && r.sha_content === g.runs[0].sha_content ? ' same' : ''), r.sha_content));
+        tb.appendChild(tr);
+      });
+      tbl.appendChild(tb);
+      var sc = node('div', 'scroll'); sc.appendChild(tbl); wrap.appendChild(sc);
+      host.appendChild(wrap);
+    });
+    if (D.consistency.cross) {
+      var c = D.consistency.cross;
+      host.appendChild(node('p', null, 'Across the two pipelines (' + c.a + ' against ' + c.b + '): ' + (c.same ? 'the rows are identical, so the chatbot\'s edit did not change the baseline output.' : 'the rows differ.')));
+    }
+    var names = Object.keys(D.consistency.data.files);
+    ['cmp-a', 'cmp-b'].forEach(function (id, i) {
+      var sel = $('#' + id); sel.textContent = '';
+      names.forEach(function (n) { var o = node('option', null, n); o.value = n; sel.appendChild(o); });
+      if (names.length) sel.value = names[Math.min(i, names.length - 1)];
+      sel.addEventListener('change', renderCompare);
+    });
+    renderCompare();
+  }
+  function diffFiles(a, b) {
+    var cols = D.consistency.data.columns, id = cols.indexOf('order_id');
+    var A = D.consistency.data.files[a], B = D.consistency.data.files[b];
+    var ma = {}, mb = {}, diffs = [];
+    A.forEach(function (r) { ma[r[id]] = r; });
+    B.forEach(function (r) { mb[r[id]] = r; });
+    Object.keys(ma).forEach(function (k) {
+      if (!mb[k]) { diffs.push({ id: k, col: '(whole row)', a: 'present', b: 'missing' }); return; }
+      cols.forEach(function (c, i) { if (ma[k][i] !== mb[k][i]) diffs.push({ id: k, col: c, a: ma[k][i], b: mb[k][i] }); });
+    });
+    Object.keys(mb).forEach(function (k) { if (!ma[k]) diffs.push({ id: k, col: '(whole row)', a: 'missing', b: 'present' }); });
+    var sameOrder = A.length === B.length && A.every(function (r, i) { return r[id] === B[i][id]; });
+    return { diffs: diffs, sameOrder: sameOrder, rowsA: A.length, rowsB: B.length };
+  }
+  function renderCompare() {
+    var host = $('#cmp-result'); host.textContent = '';
+    var a = $('#cmp-a').value, b = $('#cmp-b').value;
+    if (!a || !b) { host.appendChild(node('p', null, 'No outputs to compare yet.')); return; }
+    var d = diffFiles(a, b);
+    if (!d.diffs.length) {
+      host.appendChild(node('p', null, a === b ? 'Same file chosen twice.' : 'No differences: ' + d.rowsA + ' rows in each, every cell matches' + (d.sameOrder ? ', and the rows are in the same order.' : ', but the rows are in a different order.')));
+      return;
+    }
+    host.appendChild(node('p', null, d.diffs.length + ' differing cells (' + d.rowsA + ' rows against ' + d.rowsB + '). Showing up to 40.'));
+    var tbl = node('table', 'sbs');
+    var thead = node('thead'), hr = node('tr');
+    ['Order', 'Column', a, b].forEach(function (x) { hr.appendChild(node('th', null, x)); });
+    thead.appendChild(hr); tbl.appendChild(thead);
+    var tb = node('tbody');
+    d.diffs.slice(0, 40).forEach(function (x) {
+      var tr = node('tr');
+      tr.appendChild(node('td', null, x.id)); tr.appendChild(node('td', null, x.col));
+      tr.appendChild(node('td', 'a', x.a)); tr.appendChild(node('td', 'b', x.b));
+      tb.appendChild(tr);
+    });
+    tbl.appendChild(tb);
+    var sc = node('div', 'scroll'); sc.appendChild(tbl); host.appendChild(sc);
+  }
+  function renderFingerprints() {
+    var tb = $('#fp-table tbody'); tb.textContent = '';
+    D.fingerprints.forEach(function (f) {
+      var tr = node('tr');
+      tr.appendChild(node('td', null, f.node)); tr.appendChild(node('td', 'fp', f.sha)); tr.appendChild(node('td', null, f.seen.join('; ')));
+      tb.appendChild(tr);
+    });
+  }
+
+  /* time and resources */
+  function renderSorts() {
+    var host = $('#sorts'); host.textContent = '';
+    [['order', 'In the order I tested'], ['slow', 'Slowest first']].forEach(function (s) {
+      var b = node('button', 'chip', s[1]); b.type = 'button';
+      b.setAttribute('aria-pressed', String(state.sort === s[0]));
+      b.addEventListener('click', function () { state.sort = s[0]; renderSorts(); renderTime(); });
+      host.appendChild(b);
+    });
+  }
+  function avg(list) { return list.reduce(function (a, b) { return a + b; }, 0) / list.length; }
+  function renderTime() {
+    var list = visible().slice();
+    var all = [].concat.apply([], list.map(function (s) { return s.executions; }));
+    var full = all.filter(function (e) { return e.outcome === 'ok'; }).map(function (e) { return e.duration_s; }).filter(function (d) { return d < 30; });
+    var stopped = all.filter(function (e) { return e.outcome === 'fail'; }).map(function (e) { return e.duration_s; });
+    var span = function (v) {
+      var lo = Math.min.apply(null, v), hi = Math.max.apply(null, v);
+      return lo === hi ? seconds(lo) : seconds(lo) + ' to ' + seconds(hi);
+    };
+    var intro = 'Execution time is the duration Rhombus reports for each run. Dots are single runs, the pale bar is the mean.';
+    if (full.length && stopped.length) {
+      intro += ' Runs that completed all nodes took ' + span(full) + '; runs that stopped with an error took ' + span(stopped) + ', because they stop early.';
+    }
+    $('#time-intro').textContent = intro;
+    var meanOf = function (s) { return avg(s.executions.map(function (e) { return e.duration_s; })); };
+    if (state.sort === 'slow') list.sort(function (a, b) { return meanOf(b) - meanOf(a); });
+
+    var svg = $('#chart'); svg.textContent = '';
+    var W = 940, labelW = 290, padR = 78, rowH = 32, top = 28;
+    var ins = all.map(function (e) { return e.duration_s; }).filter(function (d) { return d < 20; });
+    var xmax = Math.max(8, Math.ceil(Math.max.apply(null, ins.concat([0])) / 2) * 2);
+    var H = top + list.length * rowH + 10;
+    var x = function (v) { return labelW + (Math.min(v, xmax) / xmax) * (W - labelW - padR); };
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svg.setAttribute('width', W);
+    svg.setAttribute('height', H);
+    svg.setAttribute('aria-label', 'Execution time in seconds for each run, grouped by scenario');
+    for (var tick = 0; tick <= xmax; tick += 2) {
+      svg.appendChild(ns('line', { x1: x(tick), x2: x(tick), y1: top - 8, y2: H - 6, 'class': 'grid' }));
+      var lt = ns('text', { x: x(tick), y: 14, 'text-anchor': 'middle', 'class': 'muted' }); lt.textContent = tick + 's'; svg.appendChild(lt);
+    }
+    list.forEach(function (s, i) {
+      var y = top + i * rowH, mid = y + rowH / 2 - 2;
+      var label = s.label.length > 38 ? s.label.slice(0, 37) + '\u2026' : s.label;
+      var lt2 = ns('text', { x: 0, y: mid + 4 }); lt2.textContent = label; svg.appendChild(lt2);
+      var m = meanOf(s);
+      svg.appendChild(ns('rect', { x: labelW, y: mid - 7, width: Math.max(1, x(m) - labelW), height: 14, 'class': 'mean' }));
+      s.executions.forEach(function (ex) {
+        var c = ns('circle', { cx: x(ex.duration_s), cy: mid, r: 5.5, 'class': 'dot ' + ex.outcome });
+        var tt = ns('title'); tt.textContent = describe(ex) + (ex.duration_s > xmax ? ' (off the scale)' : '');
+        c.appendChild(tt); svg.appendChild(c);
+      });
+      var mt = ns('text', { x: W - padR + 10, y: mid + 4, 'class': 'muted' }); mt.textContent = 'mean ' + seconds(m); svg.appendChild(mt);
+    });
+    var tb = $('#out-table tbody'); tb.textContent = '';
+    list.forEach(function (s) {
+      var nodesList = s.executions.map(function (e) { return e.nodes; });
+      var lo = Math.min.apply(null, nodesList), hi = Math.max.apply(null, nodesList);
+      var tr = node('tr');
+      tr.appendChild(node('td', null, s.label));
+      tr.appendChild(node('td', null, lo === hi ? String(hi) : lo + ' to ' + hi));
+      tr.appendChild(node('td', null, s.output ? String(s.output.rows) : 'none recorded'));
+      tr.appendChild(node('td', null, s.output ? s.output.kb + ' KB' : 'none recorded'));
+      tb.appendChild(tr);
+    });
+  }
+  function renderNotes() {
+    var ul = $('#notes'); ul.textContent = '';
+    D.notes.forEach(function (n) { ul.appendChild(node('li', null, n)); });
+  }
+
+  state.cell = [5, 2];
+  renderFilters(); renderHealth(); renderHeat(); renderCell();
+  renderConsistency(); renderFingerprints(); renderSorts(); renderTime(); renderNotes();
+})();
+</script>
+</body>
+</html>

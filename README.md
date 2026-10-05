@@ -38,7 +38,7 @@ python data-validation/compare_dates.py <output.csv>             # breaks date e
 ```
 `validate.py` checks: schema (columns and order), row count, no duplicates, valid emails, full country names, ISO dates, plausible amounts (5 to 500), quantity of at least 1, trimmed title-case names, every value against what the nine rules should produce from the baseline, and determinism (`--same-as`). It exits with code 1 if any check fails. `run_case.py` always restores the baseline in S3 afterwards.
 
-Latest test runs: `observations/evidence/api-tests-run-final.txt` (30 passed, 5 expected failures) and `observations/evidence/ui-tests-run-4.txt` (17 passed, 2 expected failures). Expected failures are marked `xfail` with the reason, and each one documents a bug I found.
+Latest test runs: `observations/evidence/api-tests-run-final.txt` (30 passed, 5 expected failures) and `observations/evidence/ui-tests-run-final.txt` (22 passed, 3 expected failures). Expected failures are marked `xfail` with the reason, and each one documents a bug I found.
 
 ## 2. Observations summary
 
