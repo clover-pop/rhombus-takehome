@@ -159,6 +159,8 @@ CONSISTENCY_GROUPS = [
     ("Latest run started by the UI test (edited pipeline)", ["ui_run_test"]),
 ]
 
+EXTRA_PICKER = ["drift_semantic_cents", "drift_semantic_dates_ddmm", "drift_semantic_status_swap"]
+
 # Copied from the error text in the Rhombus logs (evidence is in observations/evidence/).
 FAILURE_FINGERPRINTS = [
     dict(node="orders_valid_email", sha="5f40b5e32988", seen=["Dropped column run", "Re-run after the chatbot's edit"]),
@@ -295,6 +297,11 @@ def build_consistency():
         else:
             verdict = "different"
         groups.append(dict(title=title, runs=runs, verdict=verdict))
+    for n in EXTRA_PICKER:
+        info = read_output(n)
+        if info and info["header"] == columns:
+            data_rows[n] = info["rows"]
+
     cross = None
     if len(groups) >= 2:
         a, b = groups[0]["runs"][0], groups[1]["runs"][0]
