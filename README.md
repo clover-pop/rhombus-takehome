@@ -2,6 +2,8 @@
 
 I built a cleaning pipeline in Rhombus AI with the AI builder only (S3 source, 9 cleaning steps, Google Cloud Storage destination, scheduled), then broke its input on purpose to see how the platform responds. This repo has the UI tests, API tests, a data validation script, every dataset, and one write-up per drift case.
 
+**Live dashboard (optional bonus):** https://clover-pop.github.io/rhombus-takehome/
+
 **Important deviation:** the schedule never fired (details below), so every run, including the baseline, was started manually with the play button. I document this as a finding and did not hide it.
 
 ## 1. Setup and how to run
@@ -81,4 +83,8 @@ TODO-REPLACE: add the link here.
 - **Fixture design:** the baseline is generated, with a file of exactly which rows have which defect, so validation compares against ground truth.
 - **Tests change very little.** The Run test starts one pipeline run and writes one output file. The S3 empty-bucket test submits the form with no bucket and asserts that no source is created. The dialog tests are cancelled without saving, and no test deletes anything. I did not probe other accounts' resources.
 - The UI tests check every stage of the journey on the pipeline I built with the AI builder (S3 source connected to my bucket, the 10-node AI-built pipeline, the GCS destination, the schedule, and a full Run whose output is validated), but they do not rebuild the pipeline from scratch. The build itself was done once, manually, by typing the prompt recorded in docs/pipeline-prompt.md into the AI builder.
-- The optional bonus dashboard is not included.
+- The optional bonus dashboard is included (link at the top). It is built from this repo's own data, and every rating on it can be traced to a write-up.
+
+## A problem found during testing
+
+Late in testing, runs started failing at `orders_title_case`, `orders_cleaned` and the output node, because those three nodes had lost their settings (their `columns`, and the output destination). The failures from execution #16825 onwards on the dashboard come from this. I restored the settings by hand each time and the output then matched my earlier baseline runs on all 23 validator checks. In an automated test, clicking Connect S3 source with the Bucket field empty and then cancelling was followed by the nodes being emptied, several times. I only saw this in the automated test and did not try it by hand, and I do not know the mechanism. I rewrote that test so it never clicks Connect. Three earlier 2-node failures (#16711 to #16713, 4 Oct) look similar, but I do not know their cause.
